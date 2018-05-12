@@ -11,21 +11,57 @@
       </div>
     </header>
     <main>
-      <div class="sidebar"></div>
-      <div></div>
+      <div class="sidebar">
+        <el-menu
+          default-active="2"
+          class="el-menu-vertical-demo"
+          @select="selectChange"
+          background-color="#072D3B"
+          text-color="#fff"
+          active-text-color="#ffd04b">
+          <template  v-for="(item, index) in $router.options.routes">
+            <el-menu-item v-if="item.name ? item.children.length > 1 ? false : true : false" :key="index" :index="item.children[0].path">
+              <img class="icon_img" :src="item.children[0].meta.icon">
+              <span slot="title">{{ item.name }}</span>
+            </el-menu-item>
+            <el-submenu v-if="item.name ? item.children.length > 1 ? true : false : false" :key="index" :index="item.children[0].path">
+            <template slot="title">
+              <img class="icon_img" :src="item.meta.icon">
+              <span>{{ item.name }}</span>
+            </template>
+              <el-menu-item v-for="(items, indexs) in item.children" :key="indexs" :index="items.path + ''">
+                <img class="icon_img" :src="items.meta.icon">
+                <span slot="title">{{ items.name }}</span>
+              </el-menu-item>
+          </el-submenu>
+          </template>
+        </el-menu>
+      </div>
+      <div class="mainBody">
+        <transition name="list" mode="out-in">
+          <router-view></router-view>
+        </transition>
+      </div>
     </main>
   </div>
 </template>
 <script lang='ts'>
 import { Component, Vue } from 'vue-property-decorator'
 
-declare function require(string: any): string;
-
 @Component
 export default class Home extends Vue {
   private user: object = {}
   private homeTitle: string = 'Qzuser </ 瑞>'
   private userFace = require('./../assets/image/people.jpeg')
+
+  private selectChange (key:string, keyPath:string):void {
+    console.log(key)
+    this.$router.push(key)
+  }
+
+  private mounted () {
+    console.log(this.$router)
+  }
 }
 </script>
 <style lang='scss' scoped>
@@ -66,20 +102,27 @@ export default class Home extends Vue {
         width: 40px;
         height: 40px;
         margin-right: 20px;
-        border-radius: 50%;
+        border-radius: 50%;    }
+      }
+    }
+    main {
+      width: 100%;
+      height: calc(100% - 70px);
+      display: flex;
+      justify-content: flex-start;
+      .sidebar {
+        width: 250px;
+        background: $border;
+        .icon_img {
+          width: 20px;
+          margin-right: 5px;
+          margin-left: 10px;
+        }
+      }
+      .mainBody {
+        width: 100%;
+        height: 100%;
       }
     }
   }
-  main {
-    width: 100%;
-    height: calc(100% - 70px);
-    display: flex;
-    justify-content: flex-start;
-    .sidebar {
-      width: 250px;
-      background: $border;
-
-    }
-  }
-}
 </style>

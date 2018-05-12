@@ -5,6 +5,30 @@ import 'nprogress/nprogress.css'
 
 Vue.use(Router)
 
+// 控制面板图标
+const icon_home = require('./../assets/image/home.png')
+
+// 文章管理图标
+const icon_airticle = require('./../assets/image/airticle.png')
+
+// 文章列表图标
+const icon_airticleList = require('./../assets/image/airticleList.png')
+
+// 文章编辑图标
+const icon_editor = require('./../assets/image/editor.png')
+
+// 全局设置图标
+const icon_global = require('./../assets/image/global.png')
+
+// 留言墙图标
+const icon_leaveWell = require('./../assets/image/leaveWell.png')
+
+// 标签管理图标
+const icon_tag = require('./../assets/image/tag.png')
+
+// 评论管理图标
+const icon_comments = require('./../assets/image/comments.png')
+
 // 路由容器
 const home: AsyncComponent = ():any => import(/* webpackChunkName: "home" */ './../pages/home.vue')
 
@@ -38,17 +62,17 @@ const router = new Router({
       name: '数据统计',
       meta: {firstRoute: true},
       children: [
-        {path: '/statistical', component: statistical, name: '我的面板', meta: {page: '数据'}}
+        {path: '/statistical', component: statistical, name: '我的面板', meta: {page: '数据', icon: icon_home}}
       ]
     },
     {
       path: '/',
       component: home,
       name: '文章管理',
-      meta: {firstRoute: false},
+      meta: {firstRoute: false, icon: icon_airticle},
       children: [
-        {path: '/viewAriicle', component: viewAriicle, name: '文章列表', meta: {page: '列表'}},
-        {path: '/editorAricle', component: editorAricle, name: '文章列表', meta: {page: '编辑'}}
+        {path: '/viewAriicle', component: viewAriicle, name: '文章列表', meta: {page: '列表', icon: icon_airticleList}},
+        {path: '/editorAricle', component: editorAricle, name: '文章编辑', meta: {page: '编辑', icon: icon_editor}}
       ]
     },
     {
@@ -57,7 +81,7 @@ const router = new Router({
       name: '标签管理',
       meta: {firstRoute: true},
       children: [
-        {path: '/tagsControl', component: tagsControl, name: '标签管理', meta: {page: '标签'}},
+        {path: '/tagsControl', component: tagsControl, name: '标签', meta: {page: '标签', icon: icon_tag}}
       ]
     },
     {
@@ -66,7 +90,7 @@ const router = new Router({
       name: '留言墙',
       meta: {firstRoute: true},
       children: [
-        {path: '/leaveMessage', component: leaveMessage, name: '留言情', meta: {page: '留言'}},
+        {path: '/leaveMessage', component: leaveMessage, name: '留言', meta: {page: '留言', icon: icon_leaveWell}}
       ]
     },
     {
@@ -75,7 +99,7 @@ const router = new Router({
       name: '全局设置',
       meta: {firstRoute: true},
       children: [
-        {path: '/global', component: global, name: '全局设置', meta: {page: '设置'}},
+        {path: '/global', component: global, name: '设置', meta: {page: '设置', icon: icon_global}}
       ]
     },
     {
@@ -84,14 +108,13 @@ const router = new Router({
       name: '评论控制',
       meta: {firstRoute: true},
       children: [
-        {path: '/comments', component: comments, name: '评论控制', meta: {page: '设置'}},
+        {path: '/comments', component: comments, name: '控制', meta: {page: '控制', icon: icon_comments}}
       ]
     }
   ]
 })
 
 router.beforeEach((to: Route, form: Route, next: any) => {
-  console.log(to)
   NProgress.start()
   next()
 })
