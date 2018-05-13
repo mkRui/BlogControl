@@ -7,7 +7,7 @@
       </div>
       <div class="user">
         <img :src="userFace">
-        <span>师聪瑞</span>
+        <span>Qzuser</span>
       </div>
     </header>
     <main>
@@ -59,7 +59,7 @@ export default class Home extends Vue {
     this.$router.push(key)
   }
 
-  private mounted () {
+  private mounted (): void {
     console.log(this.$router)
   }
 }
@@ -116,11 +116,11 @@ export default class Home extends Vue {
         .icon_img {
           width: 20px;
           margin-right: 5px;
-          margin-left: 10px;
+          margin-left: -3px;
         }
       }
       .mainBody {
-        width: 100%;
+        width: calc(100% - 250px);
         height: 100%;
       }
     }
