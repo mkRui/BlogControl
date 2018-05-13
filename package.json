@@ -13,9 +13,11 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "@types/highcharts": "^5.0.22",
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "element-ui": "^2.3.6",
+    "highcharts": "^6.1.0",
     "node-sass": "^4.8.3",
     "nprogress": "^0.2.0",
     "querystring": "^0.2.0",
