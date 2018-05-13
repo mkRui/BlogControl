@@ -7,6 +7,9 @@ import './assets/scss/index.scss'
 import ElementUI from 'element-ui'
 import './assets/scss/element-variables.scss'
 import store from './store/index'
+import { format } from './filter/index'
+
+Vue.filter('format', format)
 
 Vue.use(ElementUI)
 
