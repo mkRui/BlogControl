@@ -29,6 +29,9 @@ const icon_tag = require('./../assets/image/tag.png')
 // 评论管理图标
 const icon_comments = require('./../assets/image/comments.png')
 
+// 人员管理
+const icon_user = require('./../assets/image/userControl.png')
+
 // 路由容器
 const home: AsyncComponent = ():any => import(/* webpackChunkName: "home" */ './../pages/home.vue')
 
@@ -52,6 +55,9 @@ const global: AsyncComponent = ():any => import(/* webpackChunkName: "global" */
 
 // 评论控制
 const comments: AsyncComponent = ():any => import(/* webpackChunkName: "comments" */ './../pages/comments/index.vue')
+
+// 人员管理
+const userControl: AsyncComponent = ():any => import(/* webpackChunkName: "comments" */ './../pages/userControl/index.vue')
 
 const router = new Router({
   routes: [
@@ -109,6 +115,15 @@ const router = new Router({
       meta: {firstRoute: true},
       children: [
         {path: '/comments', component: comments, name: '控制', meta: {page: '控制', icon: icon_comments}}
+      ]
+    },
+    {
+      path: '/',
+      component: home,
+      name: '人员管理',
+      meta: {firstRoute: true},
+      children: [
+        {path: '/userControl', component: userControl, name: '管理', meta: {page: '人员', icon: icon_user}}
       ]
     }
   ]
