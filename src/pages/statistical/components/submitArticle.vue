@@ -51,7 +51,8 @@ export default class submitInfo extends Vue {
   private articleList: list[] = [
     {title: 'web前端进阶之路', user: 'qzuser', date: 1526198985076, subTitle: 'html5 + 迎接移动时代', tag: 'web前端', views: 20},
     {title: 'python 与 人工智能', user: 'qzuser', date: 1526198985076, subTitle: 'html5 + 迎接移动时代', tag: 'web前端', views: 20},
-    {title: '波士顿机械狗', user: 'qzuser', date: 1526198985076, subTitle: 'html5 + 迎接移动时代', tag: 'web前端', views: 20}
+    {title: '波士顿机械狗', user: 'qzuser', date: 1526198985076, subTitle: 'html5 + 迎接移动时代', tag: 'web前端', views: 20},
+    {title: 'react native', user: 'qzuser', date: 1526198985076, subTitle: 'html5 + 迎接移动时代', tag: 'web前端', views: 20}
   ]
 }
 
@@ -59,7 +60,7 @@ export default class submitInfo extends Vue {
 <style lang='scss' scoped>
 .submitArticle {
   width: 100%;
-  height: 360px;
+  height: 460px;
   background: #fff;
   padding: 20px;
   box-sizing: border-box;

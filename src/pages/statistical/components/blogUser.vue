@@ -34,7 +34,7 @@ export default class blogUser extends Vue {
 <style lang='scss' scoped>
 .blogAdmin {
   width: 100%;
-  height: 209px;
+  height: 309px;
   background: #fff;
   border-radius: 5px;
   margin-bottom: 20px;

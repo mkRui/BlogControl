@@ -113,6 +113,9 @@ export default class Home extends Vue {
       .sidebar {
         width: 250px;
         background: $border;
+        > ul {
+          width: 251px;
+        }
         .icon_img {
           width: 20px;
           margin-right: 5px;
@@ -122,6 +125,7 @@ export default class Home extends Vue {
       .mainBody {
         width: calc(100% - 250px);
         height: 100%;
+        overflow: auto;
       }
     }
   }
