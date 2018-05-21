@@ -39,7 +39,7 @@ export default class infoHead extends Vue {
   display: flex;
   justify-content: space-between;
   .info {
-    width: 20%;
+    width: 22%;
     height: 100px;
     background: #fff;
     margin-bottom: 20px;
@@ -47,6 +47,7 @@ export default class infoHead extends Vue {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    border: 1px solid #fff;
     dl {
       color: #fff;
       margin-right: 10px;

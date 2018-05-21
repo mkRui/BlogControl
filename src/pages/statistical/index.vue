@@ -55,10 +55,10 @@ export default class statistical extends Vue {
     display: flex;
     .leftArticle {
       width: 55%;
-      margin-right: 3%;
+      margin-right: 1.5%;
     }
     .rightArticle {
-      width: 42%;
+      width: 43.5%;
     }
   }
 }
