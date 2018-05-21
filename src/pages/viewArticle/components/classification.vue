@@ -41,8 +41,8 @@ export default class stateBtn extends Vue {
       &.options {
         font-size: 15px;
         color: $border;
-        padding:5px 20px;
-        margin-left: 15px;
+        padding:5px 18px;
+        margin-right: 23px;
         border-radius: 5px;
         box-sizing: border-box;
         border: 2px solid $border;
