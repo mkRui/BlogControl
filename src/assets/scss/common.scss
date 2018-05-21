@@ -28,25 +28,6 @@ body {
     border-color .25s linear);
 }
 
-// 内容区域
-
-.container {
-  margin: 0 auto;
-}
-
-// 面包屑
-.el-breadcrumb__separator {
-  margin: 6px !important;
-  &:after {
-    content: '/'
-  }
-}
-
-
-.iconfont.mar {
-  margin-right: 4px;
-}
-
 // 内容表格
 .table {
   padding: $normal-pad;
@@ -66,13 +47,26 @@ body {
   }
 }
 
-.el-form-item__label{
-  &::before {
-    content: '';
-    display: none;
+.el-form {
+  .el-form-item {
+    .el-form-item__label {
+      color: $border;
+      font-size: 16px;
+      text-align: left;
+      &::before {
+        content: '';
+        display: none;
+      }
+    }
+    textarea {
+      resize:none;
+    }
   }
 }
 
+.markdown-editor .CodeMirror, .markdown-editor .CodeMirror-scroll {
+  min-height: 360px;
+}
 
 // 清除浮动
 .clearfix {
