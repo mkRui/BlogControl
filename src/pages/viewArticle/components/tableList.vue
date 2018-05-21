@@ -27,6 +27,9 @@
         <el-table-column
           label="发布时间"
           prop="date">
+          <template slot-scope="scope">
+            <span> {{ scope.row.date | format('yyyy-MM-dd hh:mm') }} </span>
+          </template>
         </el-table-column>
         <el-table-column
           label="所属标签"
