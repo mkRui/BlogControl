@@ -3,6 +3,7 @@
     <p class="el-icon-star-off">标签列表</p>
     <div class="tagsHeader">
       <el-button type="primary" @click="addTags">新增标签</el-button>
+      <el-button type="primary" @click="addClassify">新增分类</el-button>
     </div>
     <div class="tagTables">
        <el-table
@@ -23,6 +24,15 @@
         <el-table-column
           prop="tagsName"
           label="标签名称">
+        </el-table-column>
+        <el-table-column
+          prop="types"
+          label="类型">
+          <template slot-scope="scope">
+            <div>
+              {{ scope.row.types === 1 ? '标签' : '分类' }}
+            </div>
+          </template>
         </el-table-column>
         <el-table-column
           prop="createdUser"
@@ -78,14 +88,15 @@
       :visible.sync="addTagsView"
       width="400px">
       <header slot="title">
-        <span>新增标签</span>
+        <span>{{ types ? '新增标签' : '新增分类'}}</span>
       </header>
       <div class="addTagsBody">
-        <el-input placeholder="请输入标签名称" v-model="addtagsName"></el-input>
-        <el-input placeholder="请输入标签说明" v-model="addtagsExplain"></el-input>
+        <el-input :placeholder="types ? '请输入标签名称' : '请输入分类名称'" v-model="addtagsName"></el-input>
+        <el-input :placeholder="types ? '请输入标签说明' : '请输入分类说明'" v-model="addtagsExplain"></el-input>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="addTag">确 定</el-button>
+        <el-button v-if='types' type="primary" @click="addTag">确 定</el-button>
+        <el-button v-else type="primary" @click="classify">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -99,14 +110,15 @@ interface tags {
   id?: number,
   createdUser?: string,
   createTime?: number,
-  instructions?: string
+  instructions?: string,
+  types?: number
 }
 
 @Component
 export default class tegContent extends Vue {
   private tags: tags[] = [
-    {tagsName: 'javaScript', id: 1, createdUser: 'user', createTime: 1526909000843, instructions: 'js 创建文章'},
-    {tagsName: 'java8', id: 2, createdUser: 'qzuser', createTime: 1526909000843, instructions: 'java 文章'}
+    {tagsName: 'javaScript', id: 1, createdUser: 'user', createTime: 1526909000843, instructions: 'js 创建文章', types: 1},
+    {tagsName: 'java8', id: 2, createdUser: 'qzuser', createTime: 1526909000843, instructions: 'java 文章', types: 1}
   ]
 
   private ueditorDialog: boolean = false
@@ -125,7 +137,15 @@ export default class tegContent extends Vue {
 
   private addtagsExplain: string = ''
 
+  private types: boolean = true
+
   private addTags (): void {
+    this.types = true
+    this.addTagsView = true
+  }
+
+  private addClassify (): void {
+    this.types = false
     this.addTagsView = true
   }
 
@@ -135,7 +155,22 @@ export default class tegContent extends Vue {
       id: 3,
       createdUser: 'qzuser',
       createTime: new Date().getTime(),
-      instructions: this.addtagsExplain
+      instructions: this.addtagsExplain,
+      types: 1      
+    })
+    this.addTagsView = false
+    this.addtagsName = ''
+    this.addtagsExplain = ''
+  }
+
+  private classify (): void {
+    this.tags.push({
+      tagsName: this.addtagsName,
+      id: 3,
+      createdUser: 'qzuser',
+      createTime: new Date().getTime(),
+      instructions: this.addtagsExplain,
+      types: 2 
     })
     this.addTagsView = false
     this.addtagsName = ''
