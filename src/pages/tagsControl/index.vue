@@ -1,6 +1,9 @@
 <template>
   <div class="tagContent">
     <p class="el-icon-star-off">标签列表</p>
+    <div class="tagsHeader">
+      <el-button type="primary" @click="addTags">新增标签</el-button>
+    </div>
     <div class="tagTables">
        <el-table
         :data="tags"
@@ -71,6 +74,20 @@
         <el-button type="primary" @click="changeTag">确 定</el-button>
       </span>
     </el-dialog>
+    <el-dialog
+      :visible.sync="addTagsView"
+      width="400px">
+      <header slot="title">
+        <span>新增标签</span>
+      </header>
+      <div class="addTagsBody">
+        <el-input placeholder="请输入标签名称" v-model="addtagsName"></el-input>
+        <el-input placeholder="请输入标签说明" v-model="addtagsExplain"></el-input>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="addTag">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script lang='ts'>
@@ -89,7 +106,7 @@ interface tags {
 export default class tegContent extends Vue {
   private tags: tags[] = [
     {tagsName: 'javaScript', id: 1, createdUser: 'user', createTime: 1526909000843, instructions: 'js 创建文章'},
-    {tagsName: 'javaScript', id: 2, createdUser: 'user', createTime: 1526909000843, instructions: 'js 创建文章'}
+    {tagsName: 'java8', id: 2, createdUser: 'qzuser', createTime: 1526909000843, instructions: 'java 文章'}
   ]
 
   private ueditorDialog: boolean = false
@@ -101,6 +118,29 @@ export default class tegContent extends Vue {
   private pageSize: number = 10
 
   private totalPage:number = 20
+
+  private addTagsView: boolean = false
+
+  private addtagsName: string = ''
+
+  private addtagsExplain: string = ''
+
+  private addTags (): void {
+    this.addTagsView = true
+  }
+
+  private addTag (): void {
+    this.tags.push({
+      tagsName: this.addtagsName,
+      id: 3,
+      createdUser: 'qzuser',
+      createTime: new Date().getTime(),
+      instructions: this.addtagsExplain
+    })
+    this.addTagsView = false
+    this.addtagsName = ''
+    this.addtagsExplain = ''
+  }
 
   private Ueditor (data: object): void {
     this.ueditorDialog = true
@@ -168,6 +208,18 @@ export default class tegContent extends Vue {
       width: 110px;
       height: 2px;
       background-color: $border;
+    }
+  }
+  .tagsHeader {
+    width: 100%;
+    padding: 15px;
+    background: #fff;
+    margin-bottom: 10px;
+    border-radius: 5px;
+  }
+  .addTagsBody {
+    div:nth-child(1) {
+      margin-bottom: 20px;
     }
   }
   .tagTables {
