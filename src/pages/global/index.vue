@@ -3,18 +3,10 @@
     <p class="el-icon-star-off">全局设置</p>
     <div class="globalBody">
       <div class="leftGlobal">
-        <div class="aboutImage"></div>
+        <left-global></left-global>
       </div>
       <div class="rightGlobal">
-        <div class="aboutTitle">
-          <span>作者标题：</span>
-          <div>
-            <transition  tag="div" name="slide-up" mode="out-in">
-              <span :key="1" @click="titleBooean = false" v-if="titleBooean">{{ aboutTitle }}</span>
-              <el-input :key="1" v-else v-focus @blur="titleBooean = true" v-model="aboutTitle"></el-input>
-            </transition>
-          </div>
-        </div>
+        <right-global></right-global>
       </div>
     </div>
   </div>
@@ -22,16 +14,19 @@
 <script lang='ts'>
 
 import { Component, Vue } from 'vue-property-decorator'
+import rightGlobal from './components/rightGlobal.vue'
+import leftGlobal from './components/leftGlobal.vue'
 import focus from './../../utils/foucs'
 @Component({
   directives: {
     focus
+  },
+  components: {
+    rightGlobal,
+    leftGlobal
   }
 })
 export default class global extends Vue {
-  private aboutTitle: string = '嘿 嘿 嘿～ 关于作者'
-
-  private titleBooean: boolean = true
 }
 
 </script>
@@ -72,22 +67,6 @@ export default class global extends Vue {
     }
     .rightGlobal {
       width: 35%;
-      .aboutTitle {
-        width: 100%;
-        height: 54px;
-        padding: 7px;
-        background: #fff;
-        border-radius: 5px;
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        box-sizing: border-box;
-        > span:nth-child(1) {
-          font-size: 16px;
-          margin-right: 5px;
-          margin-left: 10px;
-        }
-      }
     }
   }
 }

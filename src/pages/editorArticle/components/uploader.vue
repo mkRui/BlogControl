@@ -12,7 +12,7 @@ import { Component, Vue } from 'vue-property-decorator'
 
 @Component
 export default class uploader extends Vue {
-  private imgUrl:string = ''
+  private imgUrl: string = ''
 }
 
 </script>
