@@ -63,7 +63,7 @@ export default class global extends Vue {
     display: flex;
     justify-content: space-between;
     .leftGlobal {
-      width: 60%;
+      width: 62%;
     }
     .rightGlobal {
       width: 35%;
