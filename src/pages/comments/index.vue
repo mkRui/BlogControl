@@ -3,7 +3,7 @@
     <p class="el-icon-star-off">评论列表</p>
     <div class="leave">
       <el-table
-        :data="messgae"
+        :data="message"
         style="width: 100%"
         stripe
         border>
@@ -22,8 +22,17 @@
           label="评论文章">
         </el-table-column>
         <el-table-column
-          prop="createdUser"
+          prop="commentUser"
           label="评论人">
+        </el-table-column>
+        <el-table-column
+          prop="commentMinUser"
+          label="评论回复人">
+          <template slot-scope="scope">
+            <div :style="{'text-align': scope.row.commentMinUser ? '' : 'center'}">
+              {{ scope.row.commentMinUser ? scope.row.commentMinUser : '---' }}
+            </div>
+          </template>
         </el-table-column>
         <el-table-column
           prop="createTime"
@@ -47,7 +56,7 @@
           label="编辑">
           <template slot-scope="scope">
             <div class="editor">
-              <el-button size="small" type="success" @click="deleteTable(scope.row)">回复评论</el-button>
+              <el-button size="small" type="success" @click="reply(scope.row)" >回复评论</el-button>
               <el-button size="small" type="primary" @click="viewDetails(scope.row)" >查看详情</el-button>
               <el-button size="small" type="danger" @click="deleteTable(scope.row)">删除</el-button>
             </div>
@@ -72,7 +81,7 @@
       </header>
       <div class="detailBody">
         <ul>
-          <li><span>评论标题：<i>{{ detail.messageTitle }}</i></span><span>留言人：<i>{{ detail.createdUser }}</i></span></li>
+          <li><span>评论标题：<i>{{ detail.messageTitle }}</i></span><span>留言人：<i>{{ detail.commentUser }}</i></span></li>
           <li><span>评论内容：</span><p>{{ detail.instructions }}</p></li>
           <li class="createTime"><span>评论时间：<i>{{ detail.createTime | format('yyyy-MM-dd hh:mm') }}</i></span></li>
         </ul>
@@ -83,16 +92,30 @@
         <el-button type="primary">确 定</el-button>
       </span>
     </el-dialog>
+    <el-dialog
+      :visible.sync="replyComment"
+      width="400px">
+      <header slot="title">
+        <span>回复评论</span>
+      </header>
+      <div>
+        <el-input placeholder="请输入回复信息" v-model="replyInfo"></el-input>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="review">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script lang='ts'>
 
 import { Component, Vue } from 'vue-property-decorator'
 
-interface messgae {
+interface message {
   messageTitle?: string,
   id?: number,
-  createdUser?: string,
+  commentUser?: string,
+  commentMinUser?: string,
   createTime?: number,
   instructions?: string
 }
@@ -100,20 +123,41 @@ interface messgae {
 @Component
 export default class leaveMessage extends Vue {
 
-  private messgae: messgae[] = [
-    {messageTitle: 'javaScript', id: 1, createdUser: 'user', createTime: 1526909000843, instructions: '这个blog 分享的问题很棒 十分的陶冶情操 让我学习到不少的代码只是创建人很帅'},
-    {messageTitle: 'java8', id: 2, createdUser: 'qzuser', createTime: 1526909000843, instructions: 'java 文章'}
+  private message: message[] = [
+    {messageTitle: 'javaScript', id: 1, commentUser: 'user', commentMinUser: '',  createTime: 1526909000843, instructions: '这个blog 分享的问题很棒 十分的陶冶情操 让我学习到不少的代码只是创建人很帅'},
+    {messageTitle: 'java8', id: 2, commentUser: 'qzuser', commentMinUser: '', createTime: 1526909000843, instructions: 'java 文章'}
   ]
 
   private viewDetail: boolean = false
+
+  private replyComment: boolean = false
 
   private pageSize: number = 10
 
   private totalPage:number = 20
 
-  private detail: messgae = {}
+  private detail: message = {}
 
-  private viewDetails (data: messgae): void {
+  private commentInfo: message = {}
+
+  private replyInfo: string = ''
+
+  private review (): void {
+    const messageTitle = this.commentInfo.instructions
+    this.message.push(
+      {
+        messageTitle: typeof messageTitle === 'string' ? messageTitle.slice(0, 5) + '...' : '',
+        id: 1,
+        commentUser: 'user',
+        commentMinUser: '聪sir',
+        createTime: 1526909000843,
+        instructions: this.replyInfo
+      },
+    )
+    this.replyComment = false
+  }
+
+  private viewDetails (data: message): void {
     this.detail = data
     this.viewDetail = true
   }
@@ -122,15 +166,20 @@ export default class leaveMessage extends Vue {
     console.log(val)
   }
 
-  private deleteTable (data: messgae):void {
+  private reply (data: message): void {
+    this.commentInfo = data
+    this.replyComment = true
+  }
+
+  private deleteTable (data: message):void {
     this.$confirm(`<string style='color:red; font-size:20px;' >该留言是否违反规定？是否确定删除？</string>`, '提示', {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
       dangerouslyUseHTMLString: true
     }).then(() => {
-      this.messgae.forEach((item, index) => {
+      this.message.forEach((item, index) => {
         if (item.id === data.id) {
-          this.messgae.splice(index, 1)
+          this.message.splice(index, 1)
         }
       })
       this.$notify({
