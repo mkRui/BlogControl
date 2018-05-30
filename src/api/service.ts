@@ -1,6 +1,5 @@
 import axios from './axios'
 
-export function init () {
-  console.log(axios)
-  return 1
+export function init (): Promise<ajaxRes.VueRes> {
+  return axios.get('/initPage').then((res: ajaxRes.VueRes) => res.data)
 }

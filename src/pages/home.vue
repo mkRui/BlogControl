@@ -47,6 +47,7 @@
 </template>
 <script lang='ts'>
 import { Component, Vue } from 'vue-property-decorator'
+import service from './../api/index'
 
 @Component
 export default class Home extends Vue {
@@ -60,7 +61,7 @@ export default class Home extends Vue {
   }
 
   private mounted (): void {
-    console.log(this.$router)
+    service.init()
   }
 }
 </script>
