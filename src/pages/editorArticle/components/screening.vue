@@ -17,7 +17,7 @@
         </el-form-item>
         <el-form-item label="文章标签">
             <el-select
-              v-model="options.tagId"
+              v-model="options.classify"
               placeholder="请选择文章标签">
               <el-option
                 v-for="(item, index) in tag"
@@ -46,7 +46,7 @@
   </div>
 </template>
 <script lang='ts'>
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Watch } from 'vue-property-decorator'
 
 interface screeningModel {
   state: string,
@@ -54,7 +54,8 @@ interface screeningModel {
 }
 
 interface options {
-  tagId: string
+  tagId: string,
+  classify: string
 }
 
 interface tag {
@@ -70,7 +71,8 @@ export default class screening extends Vue {
   }
 
   private options: options = {
-    tagId: ''
+    tagId: '',
+    classify: ''
   }
 
   private tag: tag[] = [
@@ -82,6 +84,18 @@ export default class screening extends Vue {
     {name: '技术', id: 0},
     {name: '代码', id: 0}
   ]
+
+  @Watch('screeningModel', { deep: true })
+  private screen (text: object) {
+    this.$emit('state', text)
+  }
+
+  @Watch('options', { deep: true })
+  private option (text: object) {
+    this.$emit('option', text)
+  }
+
+
 }
 </script>
 <style lang='scss' scoped>

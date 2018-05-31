@@ -1,15 +1,18 @@
 <template>
   <div class="ts-Ueditor">
     <div class="titleHeader">
-      <title-art></title-art>
+      <title-art @title='titleForm'></title-art>
     </div>
     <div class="options">
-      <screening></screening>
+      <screening @state='stateSubmit' @option='option'></screening>
       <uploader></uploader>
     </div>
     <div class="editorContent">
       <markdown-editor v-model="ueditor" ref="VueUeditor" preview-class="markdown-body" :highlight="true"></markdown-editor>
     </div>
+   <div class="submit">
+     <el-button type="primary" >发布</el-button>
+   </div>
   </div>
 </template>
 <script lang='ts'>
@@ -37,6 +40,18 @@ export default class TheEditor extends Vue {
 
   private mounted ():void {
     console.log(1)
+  }
+
+  private titleForm (text: object): void {
+    console.log(text)
+  }
+
+  private stateSubmit (text: object): void {
+    console.log(text)
+  }
+
+  private option (text: object): void {
+    console.log(text)
   }
 
   @Watch('ueditor')
@@ -70,6 +85,11 @@ export default class TheEditor extends Vue {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+  }
+  .submit {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
   }
 }
 </style>

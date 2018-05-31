@@ -12,7 +12,7 @@
   </div>
 </template>
 <script lang='ts'>
-import { Component,Vue } from 'vue-property-decorator'
+import { Component, Vue, Watch } from 'vue-property-decorator'
 
 interface titleList {
   title: string,
@@ -34,6 +34,12 @@ export default class titleArt extends Vue {
       { required: true, message: '请输入文章副标题', trigger: 'blur' }
     ]
   }
+
+  @Watch('titleForm', { deep: true })
+  private titlForm (text: object) {
+    this.$emit('title', text)
+  }
+
 }
 </script>
 <style lang='scss'>
