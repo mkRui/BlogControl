@@ -1,5 +1,5 @@
 # BlogControl
-> 作为博客的后台管理项目 开发构建ing～
+> 作为博客的后台管理项目 页面基本构建完毕 node-express ing~
 # 技术栈
 > typescript + vue + element
 # 期望
