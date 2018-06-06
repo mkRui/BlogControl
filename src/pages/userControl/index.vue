@@ -11,11 +11,11 @@
         stripe
         border>
         <el-table-column
-          prop="createdUser"
-          label="创建人">
+          prop="userName"
+          label="名称">
         </el-table-column>
         <el-table-column
-          prop="userName"
+          prop="nickName"
           label="昵称">
         </el-table-column>
         <el-table-column
@@ -39,7 +39,7 @@
           <template slot-scope="scope">
             <div class="editor">
               <el-button size="small" type="primary" @click="Ueditor(scope.row)">编辑</el-button>
-              <el-button size="small" type="warning" v-if="scope.row.state === 1" @click="deleteTable(scope.row)">启用</el-button>
+              <el-button size="small" type="warning" v-if="scope.row.state !== 1" @click="deleteTable(scope.row)">启用</el-button>
               <el-button size="small" type="danger" v-else @click="deleteTable(scope.row)">禁用</el-button>
             </div>
           </template>
@@ -95,24 +95,16 @@
       <div class="addUserBody">
         <el-form :model="addUserForm" ref="addUserForm" :rules="addUserRules">
           <el-form-item prop="userName">
-            <el-input placeholder="请输入人员昵称" v-model="addUserForm.userName"></el-input>
+            <el-input placeholder="请输入人员姓名" v-model="addUserForm.userName"></el-input>
+          </el-form-item>
+          <el-form-item prop="nickName">
+            <el-input placeholder="请输入人员昵称" v-model="addUserForm.nickName"></el-input>
           </el-form-item>
           <el-form-item prop="passWord">
             <el-input placeholder="请输入人员密码" v-model="addUserForm.passWord"></el-input>
           </el-form-item>
           <el-form-item prop="email">
             <el-input placeholder="请输入人员邮箱" v-model="addUserForm.email"></el-input>
-          </el-form-item>
-          <el-form-item prop="email">
-            <el-select v-model="addUserForm.role" placeholder="请选择人员角色">
-              <el-option
-                v-for="(item, index) in roleUser"
-                :key="index"
-                :label="item.roleName"
-                :value="item.types"
-                :disabled="item.disabled">
-              </el-option>
-            </el-select>
           </el-form-item>
         </el-form>
       </div>
@@ -128,10 +120,10 @@ import { Component, Vue } from 'vue-property-decorator'
 
 interface users {
   id?: number,
-  createdUser?: string,
+  userName?: string,
   createTime?: number,
   types?: string,
-  userName?: string,
+  nickName?: string,
   passWord?: string,
   email?: string,
   state?: number
@@ -145,13 +137,15 @@ interface roleUser {
 
 interface addUserForm {
   userName: string
+  nickName: string
   passWord?: string
   email: string
-  role: string
+  role?: string
 }
 
 interface addUserRules {
   userName: addRules[]
+  nickName: addRules[]
   passWord: addRules[]
   email: addRules[]
   role: addRules[]
@@ -167,8 +161,8 @@ interface addRules {
 @Component
 export default class tegContent extends Vue {
   private users: users[] = [
-    {id: 1, createdUser: 'qzuser', createTime: 1526909000843, types: '博客管理员', userName: 'join', email: '1@qq.com', state: 1},
-    {id: 2, createdUser: 'qzuser', createTime: 1526909000843, types: '博客发布人', userName: 'jake', email: '2@qq.com', state: 1}
+    {id: 1, userName: 'qzuser', createTime: 1526909000843, types: '博客管理员', nickName: 'join', email: '1@qq.com', state: 1},
+    {id: 2, userName: 'qzuser', createTime: 1526909000843, types: '博客发布人', nickName: 'jake', email: '2@qq.com', state: 1}
   ]
 
   private roleUser: roleUser[] = [
@@ -178,20 +172,24 @@ export default class tegContent extends Vue {
 
   private addUserForm: addUserForm = {
     userName: '',
+    nickName: '',
     passWord: '',
-    email: '',
-    role: ''
+    email: ''
   }
 
   private UserForm: addUserForm = {
     userName: '',
+    nickName: '',
     email: '',
     role: ''
   }
 
   private addUserRules: addUserRules = {
     userName: [
-      { required: true, message: '请输入人员名称', trigger: 'blur' }
+      { required: true, message: '请输入人员姓名', trigger: 'blur' }
+    ],
+    nickName: [
+      { required: true, message: '请输入人员昵称', trigger: 'blur' }
     ],
     passWord: [
       { required: true, message: '请输入人员密码', trigger: 'blur' }
@@ -226,10 +224,10 @@ export default class tegContent extends Vue {
         const types = this.addUserForm.role === '0' ? '博客管理员' : '博客发布人'
         this.users.push({
           id: 2,
-          createdUser: 'qzuser',
+          userName: 'qzuser',
           createTime: new Date().getTime(),
           types: types,
-          userName: this.addUserForm.userName,
+          nickName: this.addUserForm.userName,
           passWord: this.addUserForm.passWord,
           email: this.addUserForm.email
         })
@@ -261,11 +259,8 @@ export default class tegContent extends Vue {
 
   private deleteTable (data: users):void {
     this.$forceUpdate()
-    this.users.forEach((item, index) => {
-      if (item.id === data.id) {
-        item.state = item.state === 0 ? 1 : 0
-      }
-    })
+    data.state = data.state === 0 ? 1 : 0
+    console.log(data)
   }
 }
 

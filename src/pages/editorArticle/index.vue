@@ -11,7 +11,7 @@
       <markdown-editor v-model="ueditor" ref="VueUeditor" preview-class="markdown-body" :highlight="true"></markdown-editor>
     </div>
    <div class="submit">
-     <el-button type="primary" >发布</el-button>
+     <el-button type="primary" @click="submit" >发布</el-button>
    </div>
   </div>
 </template>
@@ -52,6 +52,11 @@ export default class TheEditor extends Vue {
 
   private option (text: object): void {
     console.log(text)
+  }
+
+  private submit (): void {
+    console.log(1)
+    console.log(this.$refs.VueUeditor)
   }
 
   @Watch('ueditor')

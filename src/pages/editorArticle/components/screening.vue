@@ -32,7 +32,7 @@
         <el-form-item>
           <el-radio-group v-model="screeningModel.state">
             <el-radio label="1">公开</el-radio>
-            <el-radio label="0">非公开</el-radio>
+            <el-radio label="0">私密</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item>

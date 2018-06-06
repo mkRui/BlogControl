@@ -7,7 +7,7 @@
         <el-table-column type="expand">
           <template slot-scope="props">
             <ul class="details">
-              <li><span>文章说明：</span>{{ props.row.subTitle }}</li>
+              <li><span>文章副标题：</span>{{ props.row.subTitle }}</li>
               <li><span>文章标签：</span>{{ props.row.tag }}</li>
               <li><span>文章浏览量：</span>{{ props.row.views }}</li>
             </ul>
