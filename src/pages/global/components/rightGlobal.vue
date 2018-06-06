@@ -10,10 +10,13 @@
       </div>
     </div>
     <div class="aboutImage">
-      <img src="./../../../assets/image/timg.jpeg">
+      <img :src="timg">
       <div class="replaceImg">
         <el-button type="primary" @click="changeImg = true">更改图片</el-button>
       </div>
+    </div>
+    <div class="save">
+      <el-button type="primary" @click="saveSubmit">保 存</el-button>
     </div>
     <el-dialog
       title="图片上传"
@@ -30,7 +33,7 @@
 </template>
 <script lang='ts'>
 
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Prop } from 'vue-property-decorator'
 import focus from './../../../utils/foucs'
 @Component({
   directives: {
@@ -40,9 +43,18 @@ import focus from './../../../utils/foucs'
 export default class rightGlobal extends Vue {
   private aboutTitle: string = '嘿 嘿 嘿～ 关于作者'
 
+  private timg: string = 'http://www.scrscript.com/static/timg.jpeg'
+
   private titleBooean: boolean = true
 
   private changeImg: boolean = false
+
+  @Prop()
+  private user: string | undefined
+
+  private saveSubmit (): void {
+    this.$emit('save')
+  }
 }
 
 </script>
@@ -83,6 +95,15 @@ export default class rightGlobal extends Vue {
       margin-top: 13px;
     }
     img {
+      width: 100%;
+    }
+  }
+  .save {
+    margin-top: 20px;
+    padding: 10px;
+    background: #fff;
+    border-radius: 5px;
+    button {
       width: 100%;
     }
   }

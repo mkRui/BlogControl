@@ -3,20 +3,40 @@
     <p class="el-icon-star-off">全局设置</p>
     <div class="globalBody">
       <div class="leftGlobal">
-        <left-global></left-global>
+        <left-global @Global='Global' @userList='userList'></left-global>
       </div>
       <div class="rightGlobal">
-        <right-global></right-global>
+        <right-global @save='save'></right-global>
       </div>
     </div>
   </div>
 </template>
 <script lang='ts'>
 
+interface user {
+  userName: string
+}
+
+interface Global {
+  aboutTitle: string,
+  partner: string,
+  movie: string,
+  music: string,
+  hobby: string,
+  introduce: string,
+  feelHead: string,
+  feelMinHead: string,
+  feelBody: string,
+}
+
 import { Component, Vue } from 'vue-property-decorator'
+
 import rightGlobal from './components/rightGlobal.vue'
+
 import leftGlobal from './components/leftGlobal.vue'
+
 import focus from './../../utils/foucs'
+
 @Component({
   directives: {
     focus
@@ -26,7 +46,26 @@ import focus from './../../utils/foucs'
     leftGlobal
   }
 })
+
 export default class global extends Vue {
+
+  private user: string = ''
+
+  private save () {
+    console.log(1)
+  }
+
+  private Global (item: Global) {
+    console.log(item)
+  }
+
+  private userList (item: user[]) {
+    console.log(item)
+  }
+
+  private mounted () {
+    console.log(1)
+  }
 }
 
 </script>
