@@ -7,16 +7,16 @@
       </div>
       <div class="user">
         <img :src="userFace">
-        <span>Qzuser</span>
+        <span>anRui</span>
       </div>
     </header>
     <main>
       <div class="sidebar">
         <el-menu
           default-active="2"
-          class="el-menu-vertical-demo"
+          class="menu"
           @select="selectChange"
-          background-color="#072D3B"
+          background-color="#434348"
           text-color="#fff"
           active-text-color="#ffd04b">
           <template  v-for="(item, index) in $router.options.routes">
@@ -52,11 +52,10 @@ import service from './../api/index'
 @Component
 export default class Home extends Vue {
   private user: object = {}
-  private homeTitle: string = 'Qzuser </ 瑞>'
+  private homeTitle: string = 'anRui'
   private userFace = require('./../assets/image/people.jpeg')
 
   private selectChange (key:string, keyPath:string):void {
-    console.log(key)
     this.$router.push(key)
   }
 
@@ -112,7 +111,7 @@ export default class Home extends Vue {
       display: flex;
       justify-content: flex-start;
       .sidebar {
-        width: 250px;
+        width: 200px;
         background: $border;
         > ul {
           width: 251px;
@@ -122,9 +121,12 @@ export default class Home extends Vue {
           margin-right: 5px;
           margin-left: -3px;
         }
+        .menu {
+          width: 100%;
+        }
       }
       .mainBody {
-        width: calc(100% - 250px);
+        width: calc(100% - 210px);
         height: 100%;
         overflow: auto;
       }

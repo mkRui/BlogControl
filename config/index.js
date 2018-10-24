@@ -11,10 +11,10 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/blogApp': {
-        target: 'http://58.133.87.193:3000',
+        target: 'http://39.106.221.173',
         changeOrigin: true,
         pathRewrite: {
-          '^blogApp': 'blogApp'
+          '^/blogApp': '/blogApp'
         }
       }
     },
