@@ -13,9 +13,9 @@
     <main>
       <div class="sidebar">
         <el-menu
-          default-active="2"
           class="menu"
           @select="selectChange"
+          :default-active="$route.path"
           background-color="#434348"
           text-color="#fff"
           active-text-color="#ffd04b">
@@ -38,9 +38,14 @@
         </el-menu>
       </div>
       <div class="mainBody">
-        <transition name="list" mode="out-in">
-          <router-view></router-view>
-        </transition>
+        <div class="tagtang">
+          <tag></tag>
+        </div>
+        <div class="main">
+          <transition name="list" mode="out-in">
+            <router-view></router-view>
+          </transition>
+        </div>
       </div>
     </main>
   </div>
@@ -48,8 +53,14 @@
 <script lang='ts'>
 import { Component, Vue } from 'vue-property-decorator'
 import service from './../api/index'
+import tag from '@/components/common/tag.vue'
 
-@Component
+@Component({
+  name: 'home',
+  components: {
+    tag
+  }
+})
 export default class Home extends Vue {
   private user: object = {}
   private homeTitle: string = 'anRui'
@@ -113,8 +124,12 @@ export default class Home extends Vue {
       .sidebar {
         width: 200px;
         background: $border;
+        overflow: hidden;
         > ul {
           width: 251px;
+          li {
+            width: 200px;
+          }
         }
         .icon_img {
           width: 20px;
@@ -126,9 +141,19 @@ export default class Home extends Vue {
         }
       }
       .mainBody {
-        width: calc(100% - 210px);
+        width: calc(100% - 200px);
         height: 100%;
         overflow: auto;
+        .tagtang {
+          width: 100%;
+          height: 40px;
+          background: #fff;
+          border: 1px solid #e3e3e3;
+        }
+        .main {
+          width: 100%;
+          height: calc(100% - 60px)
+        }
       }
     }
   }
