@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import Vuex, { ActionTree, MutationTree } from 'vuex'
 import 'babel-polyfill'
+import modules from './module'
+
+console.log(modules)
 
 Vue.use(Vuex)
 
@@ -28,5 +31,8 @@ export default new Vuex.Store({
   state,
   getters,
   actions,
-  mutations
+  mutations,
+  modules: {
+    ...modules
+  }
 })

@@ -53,7 +53,7 @@
 <script lang='ts'>
 import { Component, Vue } from 'vue-property-decorator'
 import service from './../api/index'
-import tag from '@/components/common/tag.vue'
+import tag from '@/components/common/tagControl.vue'
 
 @Component({
   name: 'home',

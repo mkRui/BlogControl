@@ -68,7 +68,7 @@ const router = new Router({
       name: '数据统计',
       meta: {firstRoute: true},
       children: [
-        {path: '/statistical', component: statistical, name: '我的面板', meta: {page: '数据', icon: icon_home}}
+        {path: '/statistical', component: statistical, name: '数据统计', meta: {page: '数据', icon: icon_home}}
       ]
     },
     {
