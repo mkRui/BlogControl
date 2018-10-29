@@ -81,7 +81,7 @@ export default class Home extends Vue {
   height: 100vh;
   header {
     width: 100%;
-    height: 70px;
+    height: 55px;
     background: $border;
     display: flex;
     justify-content: space-between;
@@ -118,7 +118,7 @@ export default class Home extends Vue {
     }
     main {
       width: 100%;
-      height: calc(100% - 70px);
+      height: calc(100% - 55px);
       display: flex;
       justify-content: flex-start;
       .sidebar {

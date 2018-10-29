@@ -3,8 +3,6 @@ import Vuex, { ActionTree, MutationTree } from 'vuex'
 import 'babel-polyfill'
 import modules from './module'
 
-console.log(modules)
-
 Vue.use(Vuex)
 
 interface State {

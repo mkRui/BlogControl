@@ -247,7 +247,6 @@ export default class tegContent extends Vue {
   }
 
   private handleCurrentChange (val: number): void {
-    console.log(val)
   }
 
   private changeUser (): void {
@@ -260,7 +259,6 @@ export default class tegContent extends Vue {
   private deleteTable (data: users):void {
     this.$forceUpdate()
     data.state = data.state === 0 ? 1 : 0
-    console.log(data)
   }
 }
 

@@ -1,20 +1,20 @@
 <template>
   <div class="tag-control">
     <div class="switch">
-      <i class="el-icon-caret-left"></i>
-      <i class="el-icon-caret-right"></i>
+      <i @click="left" class="el-icon-caret-left"></i>
+      <i @click="right" class="el-icon-caret-right"></i>
     </div>
     <div class="tag-body">
-      <tag></tag>
+      <tag ref="tag"></tag>
     </div>
     <div class="dropDown">
-      <el-dropdown>
+      <el-dropdown @command="command">
         <div class="drop">
           <i class="el-icon-caret-bottom"></i>
         </div>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>关闭所有</el-dropdown-item>
-          <el-dropdown-item>关闭其他</el-dropdown-item>
+          <el-dropdown-item command='关闭所有' >关闭所有</el-dropdown-item>
+          <el-dropdown-item command='关闭其他' >关闭其他</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -30,7 +30,26 @@ import tag from './tag.vue'
   }
 })
 export default class tagControl extends Vue {
+  public $refs: {
+    tag: tag
+  }
+  
+  private command (item: string) {
+    console.log(item)
+    if (item === '关闭所有') {
+      this.$store.dispatch('tagControl/allClose')
+    } else {
+      this.$store.dispatch('tagControl/ortherClose', this.$route.fullPath)
+    }
+  }
 
+  private left () {
+    this.$refs.tag.leftMove()
+  }
+
+  private right () {
+    this.$refs.tag.rightMove()
+  }
 }
 </script>
 <style lang='scss'>

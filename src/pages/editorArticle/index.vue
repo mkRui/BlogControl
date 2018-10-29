@@ -35,33 +35,25 @@ export default class TheEditor extends Vue {
   private ueditor: string = ''
 
   private handleInput () {
-    console.log(1)
   }
 
   private mounted ():void {
-    console.log(1)
   }
 
   private titleForm (text: object): void {
-    console.log(text)
   }
 
   private stateSubmit (text: object): void {
-    console.log(text)
   }
 
   private option (text: object): void {
-    console.log(text)
   }
 
   private submit (): void {
-    console.log(1)
-    console.log(this.$refs.VueUeditor)
   }
 
   @Watch('ueditor')
   ueditorText (val: string) {
-    console.log(val)
   }
 }
 

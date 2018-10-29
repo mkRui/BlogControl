@@ -52,19 +52,15 @@ export default class global extends Vue {
   private user: string = ''
 
   private save () {
-    console.log(1)
   }
 
   private Global (item: Global) {
-    console.log(item)
   }
 
   private userList (item: user[]) {
-    console.log(item)
   }
 
   private mounted () {
-    console.log(1)
   }
 }
 

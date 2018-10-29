@@ -163,7 +163,6 @@ export default class leaveMessage extends Vue {
   }
 
   private handleCurrentChange (val: number): void {
-    console.log(val)
   }
 
   private reply (data: message): void {

@@ -20,7 +20,6 @@ export default class stateBtn extends Vue {
   private select: number = 0
 
   private selection (item: stateOption, index: number) {
-    console.log(index)
     this.select = index
   }
 }

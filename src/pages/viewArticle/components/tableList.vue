@@ -82,7 +82,6 @@ export default class tableList extends Vue {
   private totalPage: number = 10
 
   private handleCurrentChange (val: number):void {
-    console.log(val)
   }
 }
 
