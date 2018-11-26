@@ -39,6 +39,14 @@
 import { Vue, Component } from 'vue-property-decorator'
 import { TagList } from '@/store/module/common'
 
+export interface SearchState {
+  state: string,
+  submit: string,
+  tag: string,
+  classify: string,
+  keyWord: string
+}
+
 @Component({
   name: 'ArticleBasic'
 })

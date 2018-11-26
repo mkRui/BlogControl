@@ -1,14 +1,16 @@
 <template>
   <div class="viewMain">
-    <p class="el-icon-star-off">文章列表</p>
-    <basic></basic>
-    <table-list></table-list>
+    <p class="iconfont blog-vertical">文章列表</p>
+
+    <basic @search='search'></basic>
+
+    <table-list ref="articleTable"></table-list>
   </div>
 </template>
 <script lang='ts'>
 import { Component, Vue } from 'vue-property-decorator'
 import tableList from './components/articleList.vue'
-import basic from '@/components/article/articleBasic.vue'
+import basic, { SearchState } from '@/components/article/articleBasic.vue'
 
 @Component({
   components: {
@@ -17,7 +19,14 @@ import basic from '@/components/article/articleBasic.vue'
   }
 }) 
 export default class viewAriticle extends Vue {
+  public $refs: {
+    articleTable: tableList
+  }
 
+  private search (item: SearchState) {
+    console.log(item)
+    this.$refs.articleTable
+  }
 }
 </script>
 <style lang='scss' scoped>
@@ -38,14 +47,6 @@ export default class viewAriticle extends Vue {
     color: $border;
     &::before {
       margin-right: 5px;
-    }
-    &::after {
-      margin-top: 5px;
-      content: " ";
-      display: block;
-      width: 110px;
-      height: 2px;
-      background-color: $border;
     }
   }
   .screening {
