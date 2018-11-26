@@ -35,6 +35,9 @@ const icon_user = require('./../assets/image/userControl.png')
 // 路由容器
 const home: AsyncComponent = ():any => import(/* webpackChunkName: "home" */ './../pages/home.vue')
 
+// 登录
+const login: AsyncComponent = ():any => import(/* webpackChunkName: "login" */ './../pages/login.vue')
+
 // 首页展示数据
 const statistical: AsyncComponent = ():any => import(/* webpackChunkName: "statistical" */ './../pages/statistical/index.vue')
 
@@ -61,7 +64,11 @@ const userControl: AsyncComponent = ():any => import(/* webpackChunkName: "comme
 
 const router = new Router({
   routes: [
-    {path: '/', redirect: '/statistical'},
+    {path: '/', redirect: '/login'},
+    {
+      path: '/login',
+      component: login
+    },
     {
       path: '/',
       component: home,

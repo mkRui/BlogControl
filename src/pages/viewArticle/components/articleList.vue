@@ -83,6 +83,8 @@ export default class tableList extends Vue {
 
   private handleCurrentChange (val: number):void {
   }
+
+  private mounted () {}
 }
 
 </script>

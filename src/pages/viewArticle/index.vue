@@ -1,33 +1,19 @@
 <template>
   <div class="viewMain">
     <p class="el-icon-star-off">文章列表</p>
-    <div class="screening">
-      <state-btn></state-btn>
-      <tag-state></tag-state>
-      <classification></classification>
-      <article-state></article-state>
-      <article-search></article-search>
-    </div>
+    <basic></basic>
     <table-list></table-list>
   </div>
 </template>
 <script lang='ts'>
 import { Component, Vue } from 'vue-property-decorator'
-import stateBtn from './components/state.vue'
-import articleState from './components/articleState.vue'
-import tagState from './components/tagState.vue'
-import classification from './components/classification.vue'
-import articleSearch from './components/articleSearch.vue'
-import tableList from './components/tableList.vue'
+import tableList from './components/articleList.vue'
+import basic from '@/components/article/articleBasic.vue'
 
 @Component({
   components: {
-    stateBtn,
-    articleState,
-    tagState,
-    classification,
-    articleSearch,
-    tableList
+    tableList,
+    basic
   }
 }) 
 export default class viewAriticle extends Vue {

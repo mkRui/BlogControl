@@ -2,32 +2,64 @@ import Vue from 'vue'
 import Vuex, { ActionTree, MutationTree } from 'vuex'
 import 'babel-polyfill'
 import modules from './module'
+import { user } from '@/api'
+import router from '@/router'
 
 Vue.use(Vuex)
 
+interface Role {
+  id: number,
+  roleName: string,
+  types: number
+}
+
+interface User {
+  createTime: number,
+  id: number,
+  nickName: string,
+  userFace: string,
+  userRole: Role,
+  userState: number
+}
+
 interface State {
-  index: number
+  user: User
 }
 
 const state: State = {
-  index: 1
-}
-
-const getters = {
-
+  user: JSON.parse('{}')
 }
 
 const actions: ActionTree<State, any> = {
-
+  async getInit ({ commit }, params) {
+    const res = await user.init()
+    commit('GET_INIT', res)
+  },
+  async login ({ commit }, params) {
+    const res = await user.login(params)
+    if (res.code === 1) commit('LOGIN', res.result)
+    else res
+  }
 }
 
 const mutations: MutationTree<State> = {
-
+  GET_INIT (state, item) {
+    const url = window.location.href.split('#')[1]
+    if (item.code === 1) {
+      state.user = item.result
+      router.push(url || '/statistical')
+    } else {
+      router.push(url || '/login')
+    }
+  },
+  LOGIN (state, item) {
+    state.user = item.result
+    router.push('/statistical')
+  }
 }
 
 export default new Vuex.Store({
   state,
-  getters,
   actions,
   mutations,
   modules: {

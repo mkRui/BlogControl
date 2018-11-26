@@ -52,7 +52,6 @@
 </template>
 <script lang='ts'>
 import { Component, Vue } from 'vue-property-decorator'
-import service from './../api/index'
 import tag from '@/components/common/tagControl.vue'
 
 @Component({
@@ -68,10 +67,6 @@ export default class Home extends Vue {
 
   private selectChange (key:string, keyPath:string):void {
     this.$router.push(key)
-  }
-
-  private mounted (): void {
-    service.init()
   }
 }
 </script>
