@@ -2,15 +2,15 @@
   <div class="viewMain">
     <p class="iconfont blog-vertical">文章列表</p>
 
-    <basic @search='search'></basic>
+    <basic @search='search' @cancel='cancel'></basic>
 
     <table-list ref="articleTable"></table-list>
   </div>
 </template>
 <script lang='ts'>
 import { Component, Vue } from 'vue-property-decorator'
-import tableList from './components/articleList.vue'
-import basic, { SearchState } from '@/components/article/articleBasic.vue'
+import tableList from '@/components/article/articleList/articleList.vue'
+import basic, { SearchState } from '@/components/article/articleList/articleBasic.vue'
 
 @Component({
   components: {
@@ -24,8 +24,11 @@ export default class viewAriticle extends Vue {
   }
 
   private search (item: SearchState) {
-    console.log(item)
-    this.$refs.articleTable
+    this.$refs.articleTable.switchPage(1, item)
+  }
+
+  private cancel () {
+    this.$refs.articleTable.switchPage(1)
   }
 }
 </script>

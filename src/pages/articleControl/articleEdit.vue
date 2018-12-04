@@ -1,0 +1,94 @@
+<template>
+  <div class="ts-Ueditor">
+    <div class="titleHeader">
+      <title-art @title='titleForm'></title-art>
+    </div>
+    <div class="options">
+      <screening @state='stateSubmit' @option='option'></screening>
+      <uploader></uploader>
+    </div>
+    <div class="editorContent">
+      <markdown-editor v-model="ueditor" ref="VueUeditor" preview-class="markdown-body" :highlight="true"></markdown-editor>
+    </div>
+   <div class="submit">
+     <el-button type="primary" @click="submit" >发布</el-button>
+   </div>
+  </div>
+</template>
+<script lang='ts'>
+import { Component, Vue, Watch } from 'vue-property-decorator'
+import markdownEditor from 'vue-simplemde/src/markdown-editor.vue'
+import titleArt from '@/components/article/articleBasic/title.vue'
+import screening from '@/components/article/articleBasic/screening.vue'
+import uploader from '@/components/article/articleBasic/uploader.vue'
+
+@Component({
+  name: 'articleEdit',
+  components: {
+    markdownEditor,
+    titleArt,
+    screening,
+    uploader
+  }
+})
+
+export default class TheEditor extends Vue {
+  private ueditor: string = ''
+
+  private handleInput () {
+  }
+
+  private mounted ():void {
+  }
+
+  private titleForm (text: object): void {
+    console.log(text)
+  }
+
+  private stateSubmit (text: object): void {
+  }
+
+  private option (text: object): void {
+  }
+
+  private submit (): void {
+  }
+
+  @Watch('ueditor')
+  ueditorText (val: string) {
+  }
+}
+
+</script>
+<style lang='scss' scoped>
+.ts-Ueditor {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  min-width: 1100px;
+  overflow: auto;
+  .titleHeader {
+    background: #fff;
+    padding: 20px 20px 5px 20px;
+    width: 100%;
+    margin-bottom: 20px;
+    border-radius: 5px;
+  }
+  .editorContent {
+    width: 100%;
+  }
+  .options {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .submit {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+  }
+}
+</style>

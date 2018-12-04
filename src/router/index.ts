@@ -42,10 +42,10 @@ const login: AsyncComponent = ():any => import(/* webpackChunkName: "login" */ '
 const statistical: AsyncComponent = ():any => import(/* webpackChunkName: "statistical" */ './../pages/statistical/index.vue')
 
 // 查看文章列表
-const viewAriicle: AsyncComponent = ():any => import(/* webpackChunkName: "viewAriicle" */ './../pages/viewArticle/index.vue')
+const viewAriicle: AsyncComponent = ():any => import(/* webpackChunkName: "viewAriicle" */ './../pages/articleControl/articleList.vue')
 
 // 编辑文章
-const editorAricle: AsyncComponent = ():any => import(/* webpackChunkName: "editorAricle" */ './../pages/editorArticle/index.vue')
+const editorAricle: AsyncComponent = ():any => import(/* webpackChunkName: "editorAricle" */ './../pages/articleControl/articleEdit.vue')
 
 // 标签管理
 const tagsControl: AsyncComponent = ():any => import(/* webpackChunkName: "tagsControl" */ './../pages/tagsControl/index.vue')

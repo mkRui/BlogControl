@@ -39,6 +39,20 @@
           prop="articleClassification">
         </el-table-column>
         <el-table-column
+          label="文章状态"
+          prop="state">
+          <template slot-scope="scope">
+            <span> {{ scope.row.state === 1 ? '公开' : '私密' }} </span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="文章发布地址"
+          prop="state">
+          <template slot-scope="scope">
+            <span> {{ scope.row.draft === 1 ? '已发布' : '草稿箱' }} </span>
+          </template>
+        </el-table-column>
+        <el-table-column
           width='230'
           label="操作">
           <template slot-scope="scope">
@@ -66,12 +80,17 @@
 <script lang='ts'>
 import { Component, Vue } from 'vue-property-decorator'
 import { Article } from '@/store/module/article'
+import { SearchState } from './articleBasic.vue'
 
 @Component({
   name: 'articleTable'
 })
 export default class tableList extends Vue {
   private articleList: Article[] = []
+
+  private loading = false
+
+  private searchParma = JSON.parse('{}')
 
   private get totalPage () {
     return this.$store.state.article.total
@@ -81,23 +100,25 @@ export default class tableList extends Vue {
     return this.$store.state.article.pageNo
   }
 
-  private loading = false
-
-  private handleCurrentChange (val: number):void {
-  }
-
-  private async switchPage (page: number, search?: any) {
+  public async switchPage (page: number, search?: SearchState) {
     this.loading = true
     if (search) {
-      
+      this.searchParma = search
+    } else {
+      this.searchParma = JSON.parse('{}')
     }
     await this.$store.dispatch('article/getArticleList', {
       pageNo: page,
-      pageSize: 5
+      pageSize: 5,
+      ...this.searchParma
     })
     console.log(this.$store.state.article.articleList)
     this.articleList = this.$store.state.article.articleList
     this.loading = false
+  }
+
+  private handleCurrentChange (val: number):void {
+    this.switchPage(val, this.searchParma)
   }
 
   private mounted () {

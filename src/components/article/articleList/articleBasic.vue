@@ -86,7 +86,7 @@ export default class ArticleBasic extends Vue {
     })
     const tagAll = this.$store.state.common.tagList
     this.tagList = tagAll.filter((item: TagList) => item.tagType === 1)
-    this.classifyList = tagAll.map((item: TagList) => item.tagType === 0)
+    this.classifyList = tagAll.filter((item: TagList) => item.tagType === 0)
   }
 }
 </script>
