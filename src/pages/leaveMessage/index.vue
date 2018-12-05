@@ -121,7 +121,7 @@ export default class leaveMessage extends Vue {
   }
 
   private deleteTable (data: messgae):void {
-    this.$confirm(`<string style='color:red; font-size:20px;' >该留言是否违反规定？是否确定删除？</string>`, '提示', {
+    this.$confirm(`<string style='color:red; font-size:16px;' >该留言是否违反规定？是否确定删除？</string>`, '提示', {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
       dangerouslyUseHTMLString: true
