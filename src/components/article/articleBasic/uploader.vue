@@ -13,14 +13,16 @@
     </el-upload>
     <div class="foot">
       <el-input placeholder="上传图片后的图片地址" v-model="imgUrl"></el-input>
-      <el-button type="primary">设为文章封面</el-button>
+      <el-button type="primary" @click="cover">设为文章封面</el-button>
     </div>
   </div>
 </template>
 <script lang='ts'>
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 import { contentPath } from '@/config'
 import { error } from "@/utils/message"
+import { ArticleDetail } from '@/store/module/article'
+
 
 @Component({
   name: 'uploader'
@@ -46,8 +48,18 @@ export default class uploader extends Vue {
     }
   }
 
-  private mounted () {
-    console.log()
+  private cover () {
+    this.$emit('coverImg', this.imgUrl)
+  }
+
+  @Prop()
+  private detail: ArticleDetail
+
+  @Watch('detail', { immediate: true })
+  private updateDetail () {
+    if (JSON.stringify(this.detail) !== '{}') {
+      this.imgUrl = this.detail.cover      
+    }
   }
 }
 

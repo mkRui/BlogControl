@@ -35,8 +35,9 @@ const actions: ActionTree<State, any> = {
     const res = await user.init()
     commit('GET_INIT', res)
   },
-  async login ({ commit }, params) {
+  async login ({ commit, dispatch }, params) {
     const res = await user.login(params)
+    dispatch('tagControl/allClose')
     if (res.code === 1) commit('LOGIN', res.result)
     else res
   }
@@ -45,11 +46,11 @@ const actions: ActionTree<State, any> = {
 const mutations: MutationTree<State> = {
   GET_INIT (state, item) {
     const url = window.location.href.split('#')[1]
-    if (item.code === 1) {
+    if (item && item.code === 1) {
       state.user = item.result
       router.push(url || '/statistical')
     } else {
-      router.push(url || '/login')
+      router.push('/login')
     }
   },
   LOGIN (state, item) {

@@ -1,6 +1,6 @@
 <template>
   <div class="leaveMessage">
-    <p class="el-icon-star-off">留言列表</p>
+    <p class="iconfont blog-vertical">留言列表</p>
     <div class="leave">
       <el-table
         :data="messgae"
@@ -164,14 +164,6 @@ export default class leaveMessage extends Vue {
     color: $border;
     &::before {
       margin-right: 5px;
-    }
-    &::after {
-      margin-top: 5px;
-      content: " ";
-      display: block;
-      width: 110px;
-      height: 2px;
-      background-color: $border;
     }
   }
   .editor {

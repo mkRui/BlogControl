@@ -23,7 +23,7 @@ const state: State = {
 const actions: ActionTree<State, any> = {
   async getAllTag ({ commit }, param) {
     const res = await common.getAllTag(param)
-    if (res.code === 1) {
+    if (res && res.code === 1) {
       commit('GET_ALL_TAG', res.result)
     } else {
       return res

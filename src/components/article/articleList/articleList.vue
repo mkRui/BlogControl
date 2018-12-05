@@ -56,9 +56,8 @@
           width='230'
           label="操作">
           <template slot-scope="scope">
-            <el-button type='success' size="small">查看</el-button>
-            <el-button type='primary' size="small">编辑</el-button>
-            <el-button type='danger' size="small">删除</el-button>
+            <el-button type='success' size="small" @click="viewArticle(scope.row.id)">查看 / 编辑</el-button>
+            <el-button type='danger' @click="deleArticle(scope.row.id)" size="small">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -100,6 +99,31 @@ export default class tableList extends Vue {
     return this.$store.state.article.pageNo
   }
 
+  // 查看/编辑文章
+  private viewArticle (item: number) {
+    this.$router.push({
+      path: '/editorAricle',
+      query: {
+        id: item.toString()
+      }
+    })
+  }
+
+  // 删除文章
+  private deleArticle (item: number) {
+    this.$confirm(`<string style='color:red; font-size:20px;' >是否确定删除该标签？</string>`, '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      dangerouslyUseHTMLString: true
+    }).then(async () => {
+      await this.$store.dispatch('article/delArticle', {
+        id: item
+      })
+      this.switchPage(this.pageNo, this.searchParma)
+    })
+  }
+
+  // 初始化分页
   public async switchPage (page: number, search?: SearchState) {
     this.loading = true
     if (search) {
@@ -117,6 +141,7 @@ export default class tableList extends Vue {
     this.loading = false
   }
 
+  // 切换分页
   private handleCurrentChange (val: number):void {
     this.switchPage(val, this.searchParma)
   }

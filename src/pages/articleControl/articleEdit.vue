@@ -1,11 +1,11 @@
 <template>
-  <div class="ts-Ueditor">
+  <div class="ts-Ueditor" v-loading='loading'>
     <div class="titleHeader">
-      <title-art @title='titleForm'></title-art>
+      <title-art @title='titleForm' :detail='articleDetail'></title-art>
     </div>
     <div class="options">
-      <screening @state='stateSubmit' @option='option'></screening>
-      <uploader></uploader>
+      <screening @state='stateSubmit' @option='option' :detail='articleDetail'></screening>
+      <uploader @coverImg="coverImg" :detail='articleDetail'></uploader>
     </div>
     <div class="editorContent">
       <markdown-editor v-model="ueditor" ref="VueUeditor" preview-class="markdown-body" :highlight="true"></markdown-editor>
@@ -35,28 +35,60 @@ import uploader from '@/components/article/articleBasic/uploader.vue'
 export default class TheEditor extends Vue {
   private ueditor: string = ''
 
-  private handleInput () {
-  }
+  private cover = ''
 
-  private mounted ():void {
-  }
+  private title = JSON.parse('{}')
+
+  private optionsState = JSON.parse('{}')
+
+  private stateSub = JSON.parse('{}')
+
+  private loading = false
+
+  private articleDetail = JSON.parse('{}')
 
   private titleForm (text: object): void {
-    console.log(text)
+    this.title = text
   }
 
   private stateSubmit (text: object): void {
+    this.stateSub = text
   }
 
   private option (text: object): void {
+    this.optionsState = text
   }
 
-  private submit (): void {
+  private coverImg (item: string) {
+    this.cover = item
   }
 
-  @Watch('ueditor')
-  ueditorText (val: string) {
+  private async submit () {
+    this.loading = true
+    const res = await this.$store.dispatch('article/addArticle', {
+      id: JSON.stringify(this.articleDetail) === '{}' ? '' : this.articleDetail.id,
+      ...this.title,
+      ...this.optionsState,
+      ...this.stateSub,
+      cover: this.cover ? this.cover : this.articleDetail.cover,
+      content: this.ueditor
+    })
+    if (!res) {
+      this.$router.push('/viewAriicle')
+    }
+    this.loading = false
   }
+
+  private async mounted () {
+    if (this.$route.query.id) {
+      await this.$store.dispatch('article/viewArticle', {
+        id: this.$route.query.id
+      })
+      this.articleDetail = this.$store.state.article.articleDetail
+      this.ueditor = this.articleDetail.content
+    }
+  }
+
 }
 
 </script>

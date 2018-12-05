@@ -1,6 +1,6 @@
 <template>
   <div class="titleArt">
-    <p>标题选项 /</p>
+    <p>标题选项</p>
     <el-form :model="titleForm" ref="titleFrom" :rules="titleRules">
       <el-form-item prop="title">
         <el-input v-model="titleForm.title" placeholder="请输入文章标题"></el-input>
@@ -12,15 +12,18 @@
   </div>
 </template>
 <script lang='ts'>
-import { Component, Vue, Watch } from 'vue-property-decorator'
+import { Component, Vue, Watch, Prop } from 'vue-property-decorator'
+import { ArticleDetail } from '@/store/module/article'
 
 interface titleList {
   title: string,
   minTitle: string
 }
 
-@Component
-export default class titleArt extends Vue {
+@Component({
+  name: 'articleTitle'
+})
+export default class ArticleTitle extends Vue {
   private titleForm: titleList = {
     title: '',
     minTitle: ''
@@ -35,9 +38,22 @@ export default class titleArt extends Vue {
     ]
   }
 
+  @Prop()
+  private detail: ArticleDetail
+
   @Watch('titleForm', { deep: true })
   private titlForm (text: object) {
     this.$emit('title', text)
+  }
+
+  @Watch('detail', { immediate: true })
+  private updateDetail () {
+    if (JSON.stringify(this.detail) !== '{}') {
+      this.titleForm = {
+        title: this.detail.title,
+        minTitle: this.detail.titleMin
+      }
+    }
   }
 
 }

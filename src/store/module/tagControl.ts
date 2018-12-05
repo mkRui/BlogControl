@@ -35,6 +35,11 @@ const mutations: MutationTree<State> = {
     if (state.tagList.some(item => item.path === Route.fullPath)) {
       return 
     }
+    state.tagList.forEach((item: TagList, index: number) => {
+      if (item.name === Route.name) {
+        state.tagList.splice(index, 1)
+      }
+    })
     state.tagList.push({
       name: (Route.name as string),
       path: Route.fullPath
