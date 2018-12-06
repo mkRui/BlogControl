@@ -18,27 +18,24 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="messageTitle"
+          prop="leaveTitle"
           label="留言标题">
         </el-table-column>
         <el-table-column
-          prop="createdUser"
+          prop="leaveUser"
           label="留言人">
         </el-table-column>
         <el-table-column
-          prop="createTime"
+          prop="leaveTime"
           label="留言时间">
-          <template slot-scope="scope">
-            <span> {{ scope.row.createTime | format('yyyy-MM-dd hh:mm') }} </span>
-          </template>
         </el-table-column>
         <el-table-column
-          prop="instructions"
+          prop="leaveContent"
           label="留言内容"
           width="300">
           <template slot-scope="scope">
             <div>
-              {{ scope.row.instructions.length > 20 ?  scope.row.instructions.slice(0, 20) + '....' : scope.row.instructions}}
+              {{ scope.row.leaveContent.length > 20 ?  scope.row.leaveContent.slice(0, 20) + '....' : scope.row.leaveContent}}
             </div>
           </template>
         </el-table-column>
@@ -47,7 +44,7 @@
           label="编辑">
           <template slot-scope="scope">
             <div class="editor">
-              <el-button size="small" type="primary" @click="viewDetails(scope.row)" >查看详情</el-button>
+              <el-button size="small" type="primary" @click="viewDetails(scope.row.id)" >查看详情</el-button>
               <el-button size="small" type="danger" @click="deleteTable(scope.row)">删除</el-button>
             </div>
           </template>
@@ -58,7 +55,8 @@
       <el-pagination
         background
         @current-change="handleCurrentChange"
-        :page-size="pageSize"
+        :page-size="10"
+        :current-page="pageNo"
         layout="prev, pager, next, jumper"
         :total="totalPage">
       </el-pagination>
@@ -71,77 +69,76 @@
       </header>
       <div class="detailBody">
         <ul>
-          <li><span>留言标题：<i>{{ detail.messageTitle }}</i></span><span>留言人：<i>{{ detail.createdUser }}</i></span></li>
-          <li><span>留言内容：</span><p>{{ detail.instructions }}</p></li>
-          <li class="createTime"><span>留言时间：<i>{{ detail.createTime | format('yyyy-MM-dd hh:mm') }}</i></span></li>
+          <li><span>留言标题：<i>{{ detail.leaveTitle }}</i></span><span>留言人：<i>{{ detail.leaveUser }}</i></span></li>
+          <li><span>留言内容：</span><p>{{ detail.leaveContent }}</p></li>
+          <li class="createTime"><span>留言时间：<i>{{ detail.leaveTime }}</i></span></li>
         </ul>
       </div>
       <div class="addTagsBody">
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary">确 定</el-button>
+        <el-button type="primary" size="small">确 定</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 <script lang='ts'>
-
 import { Component, Vue } from 'vue-property-decorator'
-
-interface messgae {
-  messageTitle?: string,
-  id?: number,
-  createdUser?: string,
-  createTime?: number,
-  instructions?: string
-}
+import { LeaveMsg } from '@/store/module/leave'
 
 @Component
 export default class leaveMessage extends Vue {
 
-  private messgae: messgae[] = [
-    {messageTitle: 'javaScript', id: 1, createdUser: 'user', createTime: 1526909000843, instructions: '这个blog 分享的问题很棒 十分的陶冶情操 让我学习到不少的代码只是创建人很帅'},
-    {messageTitle: 'java8', id: 2, createdUser: 'qzuser', createTime: 1526909000843, instructions: 'java 文章'}
-  ]
+  private messgae: LeaveMsg[] = []
 
   private viewDetail: boolean = false
 
-  private pageSize: number = 10
+  private loading = false
 
-  private totalPage:number = 20
+  private get totalPage () {
+    return this.$store.state.leave.total
+  }
 
-  private detail: messgae = {}
+  private get pageNo () {
+    return this.$store.state.leave.pageNo
+  }
 
-  private viewDetails (data: messgae): void {
-    this.detail = data
+  private detail: LeaveMsg = JSON.parse('{}')
+
+  private async viewDetails (data: number) {
+    // this.detail = data
+    await this.$store.dispatch('leave/getLeaveMessage', {
+      id: data
+    })
+    this.detail = this.$store.state.leave.leaveMessage
     this.viewDetail = true
   }
 
   private handleCurrentChange (val: number): void {
   }
 
-  private deleteTable (data: messgae):void {
+  private deleteTable (data: LeaveMsg):void {
     this.$confirm(`<string style='color:red; font-size:16px;' >该留言是否违反规定？是否确定删除？</string>`, '提示', {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
       dangerouslyUseHTMLString: true
-    }).then(() => {
-      this.messgae.forEach((item, index) => {
-        if (item.id === data.id) {
-          this.messgae.splice(index, 1)
-        }
-      })
-      this.$notify({
-        title: '成功',
-        message: '删除成功',
-        type: 'success'
-      })
-    }).catch(() => {
-      this.$notify.info({
-        title: '提示',
-        message: '已取消删除'
-      })
+    }).then(async () => {
+      await this.$store.dispatch('leave/')
     })
+  }
+
+  private async switchPage (page: number) {
+    this.loading = true
+    await this.$store.dispatch('leave/getLeaveMessageList', {
+      pageSize: 10,
+      pageNo: page
+    })
+    this.messgae = this.$store.state.leave.leaveList
+    this.loading = false
+  }
+
+  private mounted () {
+    this.switchPage(1)
   }
 }
 
