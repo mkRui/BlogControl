@@ -23,7 +23,14 @@
       :visible.sync="changeImg"
       width="400px">
       <div class="aboutBody">
-        <el-upload class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/"  drag>
+        <el-upload
+        class="upload-demo"
+        :action="actionUrl"
+        :show-file-list='false'
+        name='fileName'
+        :before-upload='before'
+        :on-success="success"
+        drag>
           <i class="el-icon-upload"></i>
           <div class="el-upload__text">将图片拖到此处，或<em>点击上传</em></div>
         </el-upload>
@@ -32,29 +39,70 @@
   </div>
 </template>
 <script lang='ts'>
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+import { Global } from '@/store/module/global'
+import focus from '@/utils/foucs'
+import { error } from '@/utils/message'
+import { contentPath } from '@/config'
 
-import { Component, Vue, Prop } from 'vue-property-decorator'
-import focus from './../../../utils/foucs'
+export interface RightGlobal {
+  authorTitle: string,
+  authorFace: string
+}
+
 @Component({
+  name: 'rightGlobal',
   directives: {
     focus
   }
 })
 export default class rightGlobal extends Vue {
-  private aboutTitle: string = '嘿 嘿 嘿～ 关于作者'
+  private aboutTitle: string = ''
 
-  private timg: string = 'http://www.scrscript.com/static/timg.jpeg'
+  private timg: string = ''
 
   private titleBooean: boolean = true
 
   private changeImg: boolean = false
 
-  @Prop()
-  private user: string | undefined
+  private get actionUrl () {
+    return contentPath + `/article/uploadImg`
+  }
+
+  @Prop({ default: () => JSON.parse('{}') })
+  private detailGlobal: Global
+
+  private before (item: File) {
+    const reg = /(.jpg|.JPG|.jpeg|.JPEG|.png|.PNG)$/
+    if (!reg.test(item.name)) {
+      error('请上传jpg、jpeg、png类型的图片')
+      return false
+    }
+  }
+
+  private success (item: ajaxRes.reState) {
+    if (item.code === 1) {
+      this.timg = item.result.filePath
+    }
+  }
+
+  @Watch('detailGlobal', {deep: true})
+  private updateDetailGlobal () {
+    if (JSON.stringify(this.detailGlobal) !== '{}') {
+      const detail = this.detailGlobal
+      this.timg = detail.authorImg
+      this.aboutTitle = detail.authorTitle
+    }
+  }
 
   private saveSubmit (): void {
-    this.$emit('save')
+    this.$emit('save', {
+      authorTitle: this.aboutTitle,
+      authorImg: this.timg
+    })
   }
+
+  
 }
 
 </script>
