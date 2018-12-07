@@ -1,4 +1,5 @@
 import { ActionTree, MutationTree } from 'vuex'
+import { Article } from './article'
 import { common } from '@/api'
 
 
@@ -13,11 +14,13 @@ export interface TagList {
 }
 
 interface State {
-  tagList: TagList[]
+  tagList: TagList[],
+  articleList: Article[]
 }
 
 const state: State = {
-  tagList: []
+  tagList: [],
+  articleList: []
 }
 
 const actions: ActionTree<State, any> = {
@@ -28,12 +31,21 @@ const actions: ActionTree<State, any> = {
     } else {
       return res
     }
+  },
+  async getAllArticle ({ commit }, param) {
+    const res = await common.getAllArticle(param)
+    if (res && res.code === 1) {
+      commit('GET_ALL_ARTICLE', res.result)
+    }
   }
 }
 
 const mutations: MutationTree<State> = {
   GET_ALL_TAG (state, param) {
     state.tagList = param.list
+  },
+  GET_ALL_ARTICLE (state, param) {
+    state.articleList = param
   }
 }
 

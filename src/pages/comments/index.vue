@@ -1,7 +1,30 @@
 <template>
   <div class="comments">
-    <p class="el-icon-star-off">评论列表</p>
-    <div class="leave">
+    <p class="iconfont blog-vertical">评论列表</p>
+
+    <!-- table 主体 -->
+    <div class="leave" v-loading='loading'>
+      <!-- select -->
+      <div class="header">
+          <el-select
+            v-model="articleTitle"
+            filterable
+            remote
+            clearable
+            placeholder="请输入关键词"
+            :remote-method="remoteMethod"
+            @change="changeSearch">
+              <el-option
+              v-for="(item, index) in articleList"
+              :key="index"
+              :label="item.articleTitle"
+              :value='item.id'>
+                {{ item.articleTitle }}
+              </el-option>
+          </el-select>
+      </div>
+
+      <!-- table -->
       <el-table
         :data="message"
         style="width: 100%"
@@ -18,36 +41,37 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="messageTitle"
+          prop="commentsArticle"
           label="评论文章">
         </el-table-column>
         <el-table-column
-          prop="commentUser"
+          prop="commentsUser"
           label="评论人">
         </el-table-column>
         <el-table-column
           prop="commentMinUser"
-          label="评论回复人">
+          label="被评论人">
           <template slot-scope="scope">
-            <div :style="{'text-align': scope.row.commentMinUser ? '' : 'center'}">
-              {{ scope.row.commentMinUser ? scope.row.commentMinUser : '---' }}
+            <div :style="{'text-align': scope.row.commentsUserMin ? '' : 'center'}">
+              {{ scope.row.commentsUserMin ? scope.row.commentsUserMin : '---' }}
             </div>
           </template>
         </el-table-column>
         <el-table-column
-          prop="createTime"
+          prop="commentsTime"
           label="评论时间">
-          <template slot-scope="scope">
-            <span> {{ scope.row.createTime | format('yyyy-MM-dd hh:mm') }} </span>
-          </template>
         </el-table-column>
         <el-table-column
           prop="instructions"
           label="评论内容"
-          width="300">
+          width="250">
           <template slot-scope="scope">
             <div>
-              {{ scope.row.instructions.length > 20 ?  scope.row.instructions.slice(0, 20) + '....' : scope.row.instructions}}
+              {{
+                scope.row.commentsContent.length > 20 ?
+                scope.row.commentsContent.slice(0, 20) + '....' :
+                scope.row.commentsContent
+              }}
             </div>
           </template>
         </el-table-column>
@@ -56,147 +80,179 @@
           label="编辑">
           <template slot-scope="scope">
             <div class="editor">
-              <el-button size="small" type="success" @click="reply(scope.row)" >回复评论</el-button>
-              <el-button size="small" type="primary" @click="viewDetails(scope.row)" >查看详情</el-button>
-              <el-button size="small" type="danger" @click="deleteTable(scope.row)">删除</el-button>
+              <el-button size="small" type="success" @click="commentState(scope.row, 1)" >回复评论</el-button>
+              <el-button size="small" type="primary" @click="commentState(scope.row, 0)" >查看详情</el-button>
+              <el-button size="small" type="danger" @click="deleteTable(scope.row.id)">删除</el-button>
             </div>
           </template>
         </el-table-column>
       </el-table>
     </div>
+
+
+    <!-- 分页 -->
     <div class="pege">
       <el-pagination
         background
         @current-change="handleCurrentChange"
-        :page-size="pageSize"
+        :page-size="10"
+        :current-page="pageNo"
         layout="prev, pager, next, jumper"
         :total="totalPage">
       </el-pagination>
     </div>
+
+    <!--详情弹出-->
     <el-dialog
+      title="详情信息"
       :visible.sync="viewDetail"
       width="450px">
-      <header slot="title">
-        <span>详情信息</span>
-      </header>
-      <div class="detailBody">
-        <ul>
-          <li><span>评论标题：<i>{{ detail.messageTitle }}</i></span><span>留言人：<i>{{ detail.commentUser }}</i></span></li>
-          <li><span>评论内容：</span><p>{{ detail.instructions }}</p></li>
-          <li class="createTime"><span>评论时间：<i>{{ detail.createTime | format('yyyy-MM-dd hh:mm') }}</i></span></li>
-        </ul>
-      </div>
-      <div class="addTagsBody">
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary">确 定</el-button>
-      </span>
+      <detail-comment :detail='detail'></detail-comment>
     </el-dialog>
+
+    <!-- 恢复弹出 -->
     <el-dialog
+      title="回复评论"
       :visible.sync="replyComment"
       width="400px">
-      <header slot="title">
-        <span>回复评论</span>
-      </header>
-      <div>
-        <el-input placeholder="请输入回复信息" v-model="replyInfo"></el-input>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="review">确 定</el-button>
-      </span>
+      <add-comment @save='save'></add-comment>
     </el-dialog>
+
   </div>
 </template>
 <script lang='ts'>
-
 import { Component, Vue } from 'vue-property-decorator'
+import addComment from '@/components/comments/addComments.vue'
+import detailComment from '@/components/comments/detailComments.vue'
+import { CommentsList } from '@/store/module/comments'
+ 
+@Component({
+  name: 'comments',
+  components: {
+    addComment,
+    detailComment
+  }
+})
+export default class Comments extends Vue {
 
-interface message {
-  messageTitle?: string,
-  id?: number,
-  commentUser?: string,
-  commentMinUser?: string,
-  createTime?: number,
-  instructions?: string
-}
-
-@Component
-export default class leaveMessage extends Vue {
-
-  private message: message[] = [
-    {messageTitle: 'javaScript', id: 1, commentUser: 'user', commentMinUser: '',  createTime: 1526909000843, instructions: '这个blog 分享的问题很棒 十分的陶冶情操 让我学习到不少的代码只是创建人很帅'},
-    {messageTitle: 'java8', id: 2, commentUser: 'qzuser', commentMinUser: '', createTime: 1526909000843, instructions: 'java 文章'}
-  ]
+  private message = []
 
   private viewDetail: boolean = false
 
   private replyComment: boolean = false
 
-  private pageSize: number = 10
+  private loading = false
 
-  private totalPage:number = 20
+  private articleTitle = ''
 
-  private detail: message = {}
+  private articleList = ''
 
-  private commentInfo: message = {}
-
-  private replyInfo: string = ''
-
-  private review (): void {
-    const messageTitle = this.commentInfo.instructions
-    this.message.push(
-      {
-        messageTitle: typeof messageTitle === 'string' ? messageTitle.slice(0, 5) + '...' : '',
-        id: 1,
-        commentUser: 'user',
-        commentMinUser: '聪sir',
-        createTime: 1526909000843,
-        instructions: this.replyInfo
-      },
-    )
-    this.replyComment = false
+  private get totalPage () {
+    return this.$store.state.comments.totalPage
   }
 
-  private viewDetails (data: message): void {
+  private get pageNo () {
+    return this.$store.state.comments.pageNo
+  }
+
+  private get user () {
+    return this.$store.state.user
+  }
+
+  private detail: CommentsList = JSON.parse('{}')
+
+  // 评论弹出
+  private commentState (data: CommentsList, state: number): void {
     this.detail = data
-    this.viewDetail = true
+    if (state) {
+      this.replyComment = true
+    } else {
+      this.viewDetail = true
+    }
   }
 
+  // 分页
   private handleCurrentChange (val: number): void {
+    this.switchPage(val, this.articleTitle)
   }
 
-  private reply (data: message): void {
-    this.commentInfo = data
-    this.replyComment = true
+  // 搜索
+  private changeSearch () {
+    this.switchPage(1, this.articleTitle)
   }
 
-  private deleteTable (data: message):void {
-    this.$confirm(`<string style='color:red; font-size:20px;' >该留言是否违反规定？是否确定删除？</string>`, '提示', {
+  private save (item: { content: string }) {
+    setTimeout(async () => {
+      let comments
+      if (this.detail.commentsParentid) {
+        comments = {
+          parentId: this.detail.commentsParentid,
+          commentUser: this.user.nickName,
+          content: item.content,
+          articleId: this.detail.commentsArticleId,
+          commentMinUser: this.detail.commentsUser,
+          article: this.detail.commentsArticle
+        }
+      } else {
+        comments = {
+          parentId: this.detail.id,
+          commentUser: this.user.nickName,
+          content: item.content,
+          articleId: this.detail.commentsArticleId,
+          commentMinUser: this.detail.commentsUser,
+          article: this.detail.commentsArticle
+        }
+      }
+      const res = await this.$store.dispatch('comments/addComments', comments)
+      if (!res) {
+        this.replyComment = false
+      }
+      this.switchPage(this.pageNo, this.articleTitle)
+    }, 200)
+  }
+
+  private deleteTable (data: number):void {
+    this.$confirm(`<string style='color:red; font-size:16px;' >该留言是否违反规定？是否确定删除？</string>`, '提示', {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
       dangerouslyUseHTMLString: true
-    }).then(() => {
-      this.message.forEach((item, index) => {
-        if (item.id === data.id) {
-          this.message.splice(index, 1)
-        }
+    }).then(async () => {
+      await this.$store.dispatch('comments/delComments', {
+        id: data
       })
-      this.$notify({
-        title: '成功',
-        message: '删除成功',
-        type: 'success'
-      })
-    }).catch(() => {
-      this.$notify.info({
-        title: '提示',
-        message: '已取消删除'
-      })
+      this.switchPage(this.pageNo, this.articleTitle)
     })
   }
+
+  // 加载文章列表
+  private async remoteMethod (query: string) {
+    await this.$store.dispatch('common/getAllArticle', {
+      articleTitle: query
+    })
+    this.articleList = this.$store.state.common.articleList
+  }
+
+  // 初始化列表
+  private async switchPage (page: number, id = '') {
+    this.loading = true
+    await this.$store.dispatch('comments/getCommentsList', {
+      articleId: id,
+      pageNo: page,
+      pageSize: 10
+    })
+    this.message = this.$store.state.comments.commentsList
+    this.loading = false
+  }
+
+  private mounted () {
+    this.switchPage(1)
+    this.remoteMethod('')
+  }
+
 }
 
 </script>
-<style lang='scss' scoped>
+<style lang='scss'>
 .comments {
   width: 100%;
   height: 100%;
@@ -205,7 +261,7 @@ export default class leaveMessage extends Vue {
   min-width: 1100px;
   overflow: auto;
   > P {
-    width: 100%;
+  width: 100%;
     height: 20px;
     line-height: 20px;
     font-size: 16px;
@@ -214,14 +270,6 @@ export default class leaveMessage extends Vue {
     color: $border;
     &::before {
       margin-right: 5px;
-    }
-    &::after {
-      margin-top: 5px;
-      content: " ";
-      display: block;
-      width: 110px;
-      height: 2px;
-      background-color: $border;
     }
   }
   .editor {
@@ -234,33 +282,15 @@ export default class leaveMessage extends Vue {
     padding: 20px;
     margin-top: 10px;
     background: #fff;
-    border-radius: 5px;    
-  }
-  .detailBody {
-    width: 100%;
-    border: 1px solid $border;
-    padding: 15px;
     border-radius: 5px;
-    ul {
-      li:nth-child(1) {
-        margin-bottom: 8px;
-        span {
-          margin-right: 20px;
-        }
+    > .header {
+      margin-bottom: 20px;
+      input {
+        background: transparent;
       }
-      li {
-        p {
-          margin-top: 5px;
-          padding: 2px 8px;
-          line-height: 1.8;
-        }
-      }
-      .createTime {
-        margin-top: 10px;
-        text-align: right;
-      }
-    }
+    }  
   }
+
   .pege {
     display: flex;
     justify-content: flex-end;

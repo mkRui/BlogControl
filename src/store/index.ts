@@ -54,7 +54,7 @@ const mutations: MutationTree<State> = {
     }
   },
   LOGIN (state, item) {
-    state.user = item.result
+    state.user = item
     router.push('/statistical')
   }
 }
