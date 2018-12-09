@@ -4,10 +4,10 @@
       v-for="(item, index) in infoList"
       :key="index"
       :style="{'background': item.state === 1 ? '#909399' : item.state === 2 ? '#409EFF' : item.state === 3 ? '#67C23A' : item.state === 4 ? '#F56C6C' : '#fff' }">
-        <img v-if="item.state === 1" src="./../../../assets/image/draft.png">
-        <img v-else-if="item.state === 2" src="./../../../assets/image/release.png">
-        <img v-else-if="item.state === 3" src="./../../../assets/image/common.png">
-        <img v-else-if="item.state === 4" src="./../../../assets/image/praise.png">
+        <img v-if="item.state === 1" src="@/assets/image/draft.png">
+        <img v-else-if="item.state === 2" src="@/assets/image/release.png">
+        <img v-else-if="item.state === 3" src="@/assets/image/common.png">
+        <img v-else-if="item.state === 4" src="@/assets/image/praise.png">
         <dl>
           <dt>{{ item.state === 1 ? '草稿' : item.state === 2 ? '发布' : item.state === 3 ? '评论' : item.state === 4 ? '赞美' : '赞美' }}</dt>
           <dd>

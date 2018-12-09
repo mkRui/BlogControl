@@ -17,19 +17,19 @@
 import { Component, Vue } from 'vue-property-decorator'
 
 // 头部结构
-import infoHead from './components/headers.vue'
+import infoHead from '@/components/statistical/headers.vue'
 
 // 文章发部数
-import articleList from './components/articleList.vue'
+import articleList from '@/components/statistical/articleList.vue'
 
 // 文章活跃度
-import activePie from './components/active.vue'
+import activePie from '@/components/statistical/active.vue'
 
 // 最近文章发布
-import submitArticle from './components/submitArticle.vue'
+import submitArticle from '@/components/statistical/submitArticle.vue'
 
 // 管理员列表
-import blogAdmin from './components/blogUser.vue'
+import blogAdmin from '@/components/statistical/blogUser.vue'
 
 @Component({
   components: {
