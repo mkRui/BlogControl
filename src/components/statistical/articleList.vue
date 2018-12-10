@@ -76,7 +76,9 @@ export default class articleList extends Vue{
           enabled: false
         }
       }
-  private mounted (): void {
+  private async mounted () {
+    await this.$store.dispatch('statistical/getUserSubmit')
+    this.options.series[0].data = this.$store.state.statistical.readArticle
     HighCharts.chart('articleList', this.options)
   }
 }

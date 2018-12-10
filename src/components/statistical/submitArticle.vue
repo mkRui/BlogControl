@@ -2,36 +2,44 @@
   <div class="submitArticle">
     <p><img src="@/assets/image/browse.png">最近发布的文章</p>
       <el-table
+        v-loading='loading'
         :data="articleList"
         style="width: 100%">
         <el-table-column type="expand">
           <template slot-scope="props">
             <ul class="details">
-              <li>文章副标题：{{ props.row.subTitle }}</li>
-              <li>文章标签：{{ props.row.tag }}</li>
-              <li>文章浏览量：{{ props.row.views }}</li>
+              <li><span>文章副标题：</span>{{ props.row.articleMin }}</li>
+              <li><span>文章标签：</span>{{ props.row.articleTag }}</li>
+              <li><span>文章浏览量：</span>{{ props.row.readArticleNumber }}</li>
             </ul>
           </template>
         </el-table-column>
         <el-table-column
           label="文章标题"
           prop="title">
+          <template slot-scope="props">
+            {{ props.row.articleTitle.length > 15 ? props.row.articleTitle.slice(0,15) + '...' : props.row.articleTitle }}
+          </template>
         </el-table-column>
         <el-table-column
           label="发布人"
-          prop="user">
+          prop="articleCreateUser">
         </el-table-column>
         <el-table-column
-          label="发布时间"
-          prop="date">
+          label="所属分类"
+          prop="articleClassification">
+        </el-table-column>
+        <el-table-column
+          label="文章状态"
+          prop="state">
           <template slot-scope="scope">
-            <span> {{ scope.row.date | format('yyyy-MM-dd hh:mm') }} </span>
+            <span> {{ scope.row.state === 1 ? '公开' : '私密' }} </span>
           </template>
         </el-table-column>
         <el-table-column
           label="操作">
           <template slot-scope="scope">
-            <el-button type='primary' size="small">查看</el-button>
+            <el-button type='success' size="small" @click="viewArticle(scope.row.id)">查看 / 编辑</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -40,23 +48,33 @@
 <script lang='ts'>
 import { Component, Vue } from 'vue-property-decorator'
 
-interface list {
-  title: string,
-  user: string,
-  date: number,
-  subTitle: string,
-  tag: string,
-  views: number
-}
-
-@Component
+@Component({
+  name: 'hotArticle'
+})
 export default class submitInfo extends Vue {
-  private articleList: list[] = [
-    {title: 'web前端进阶之路', user: 'qzuser', date: 1526198985076, subTitle: 'html5 + 迎接移动时代', tag: 'web前端', views: 20},
-    {title: 'python 与 人工智能', user: 'qzuser', date: 1526198985076, subTitle: 'html5 + 迎接移动时代', tag: 'web前端', views: 20},
-    {title: '波士顿机械狗', user: 'qzuser', date: 1526198985076, subTitle: 'html5 + 迎接移动时代', tag: 'web前端', views: 20},
-    {title: 'react native', user: 'qzuser', date: 1526198985076, subTitle: 'html5 + 迎接移动时代', tag: 'web前端', views: 20}
-  ]
+  private articleList = []
+
+  private loading = false
+
+  private async mounted () {
+    this.loading = true
+    await this.$store.dispatch('article/getArticleList', {
+      pageNo: 1,
+      pageSize: 4,
+    })
+    this.articleList = this.$store.state.article.articleList
+    this.loading = false
+  }
+
+  // 查看/编辑文章
+  private viewArticle (item: number) {
+    this.$router.push({
+      path: '/editorAricle',
+      query: {
+        id: item.toString()
+      }
+    })
+  }
 }
 
 </script>

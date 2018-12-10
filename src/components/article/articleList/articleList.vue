@@ -136,7 +136,6 @@ export default class tableList extends Vue {
       pageSize: 5,
       ...this.searchParma
     })
-    console.log(this.$store.state.article.articleList)
     this.articleList = this.$store.state.article.articleList
     this.loading = false
   }

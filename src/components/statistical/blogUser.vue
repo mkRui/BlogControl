@@ -4,7 +4,7 @@
     <div class="user" v-for="(item, index) in userList" :key="index">
       <img v-if="item.urlFace" :src="item.urlFace">
       <img v-else src="@/assets/image/people.jpeg">
-      <span> {{ item.name }} </span>
+      <span> {{ item.nickName }} </span>
     </div>
   </div>
 </template>
@@ -18,17 +18,15 @@ interface user {
 
 @Component
 export default class blogUser extends Vue {
-  private userList:user[] = [
-    {urlFace: '', name: 'qzuser'},
-    {urlFace: 'http://www.scrscript.com/static/1.png', name: '绿茶'},
-    {urlFace: 'http://img1.imgtn.bdimg.com/it/u=1225487921,1872767937&fm=214&gp=0.jpg', name: '毽子'},
-    {urlFace: 'http://www.scrscript.com/static/123.jpg', name: 'hey'},
-    {urlFace: 'http://www.ld12.com/upimg358/allimg/20160629/082344384222015.jpg', name: '光头'},
-    {urlFace: 'http://up.qqya.com/allimg/201710-t/17-101804_129240.jpg', name: '码农'},
-    {urlFace: 'http://www.qqzhi.com/uploadpic/2014-10-19/231433434.jpg', name: '阿猿'},
-    {urlFace: 'http://f1.topitme.com/1/1f/03/113057198949c031f1l.jpg', name: '小强'},
-    {urlFace: 'http://www.scrscript.com/static/timg.jpeg', name: 'isavin'},
-  ]
+  private userList = []
+
+  private async mounted () {
+    await this.$store.dispatch('user/getUserPage', {
+      pageNo: 1,
+      pageSize: 20
+    })
+    this.userList = this.$store.state.user.userList
+  }
 }
 </script>
 <style lang='scss' scoped>

@@ -9,9 +9,9 @@
         <img v-else-if="item.state === 3" src="@/assets/image/common.png">
         <img v-else-if="item.state === 4" src="@/assets/image/praise.png">
         <dl>
-          <dt>{{ item.state === 1 ? '草稿' : item.state === 2 ? '发布' : item.state === 3 ? '评论' : item.state === 4 ? '赞美' : '赞美' }}</dt>
+          <dt>{{ item.state === 1 ? '草稿' : item.state === 2 ? '发布' : item.state === 3 ? '评论' : item.state === 4 ? '赞' : '赞' }}</dt>
           <dd>
-            {{ item.count }}
+            {{ item.totalCount }}
           </dd>
         </dl>
     </div>
@@ -21,14 +21,18 @@
 import { Component,Vue } from 'vue-property-decorator'
 
 // ts 检测说明
-interface infoHeadList {
-  state: number,
-  count: number | string
-}
 
-@Component
+
+@Component({
+  name: 'InfoHead'
+})
 export default class infoHead extends Vue {
-  private infoList: infoHeadList[] = [{state: 1, count: 23}, {state: 2, count: 22}, {state: 3, count: 62}, {state: 4, count: 22}]
+  private infoList = []
+
+  private async mounted () {
+    await this.$store.dispatch('statistical/getReadArticle')
+    this.infoList = this.$store.state.statistical.infoHeadList
+  }
 }
 
 

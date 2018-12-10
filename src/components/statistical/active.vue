@@ -47,19 +47,15 @@ export default class articleList extends Vue{
         series: [{
           name: '文章活跃度：',
           colorByPoint: true,
-          data: [
-            ['web前端进阶', 45],
-						['python人工智能', 26],
-						['java web', 8],
-						['react 组件化', 6],
-						['typescript 强类型', 6]
-					]
+          data: []
         }],
         credits: {
           enabled: false
         }
       }
-  private mounted (): void {
+  private async mounted () {
+    await this.$store.dispatch('statistical/getArticleRead')
+    this.options.series[0].data = this.$store.state.statistical.articleRead
     HighCharts.chart('activePie', this.options)
   }
 }
