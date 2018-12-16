@@ -2,12 +2,12 @@
   <div class="tag-router" ref="tagControl" >
     <div class="tag" ref="tagBody" :style="{left: -left + 'px'}" name="list">
       <transition-group name='list' tag="span" mode="out-in">
-          <router-link v-for="(item, index) in tagList" class="tagLink" ref='tag' :key="index"  :to="item.path" >
-            <i :class="$route.fullPath === item.path ? 'active' : ''"></i>
-            <span>{{ item.name }}</span>
-            <i v-if="item.path !== '/statistical'" @click.prevent="close(item.path)" class="el-icon-close close"></i>
-          </router-link>
-        </transition-group>
+        <router-link v-for="item in tagList" class="tagLink" ref='tag' :key="item.name"  :to="item.path" >
+          <i :class="$route.fullPath === item.path ? 'active' : ''"></i>
+          <span>{{ item.name }}</span>
+          <i v-if="item.path !== '/statistical'" @click.prevent="close(item.path)" class="el-icon-close close"></i>
+        </router-link>
+      </transition-group>
     </div>
   </div>
 </template>
