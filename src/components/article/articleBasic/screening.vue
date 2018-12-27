@@ -5,7 +5,7 @@
       <el-form v-model="options" label-width="80px">
         <el-form-item label="文章分类">
             <el-select
-              v-model="options.tag"
+              v-model="options.classify"
               placeholder="请选择文章分类">
               <el-option
                 v-for="(item, index) in classification"
@@ -17,7 +17,7 @@
         </el-form-item>
         <el-form-item label="文章标签">
             <el-select
-              v-model="options.classify"
+              v-model="options.tag"
               placeholder="请选择文章标签">
               <el-option
                 v-for="(item, index) in tag"

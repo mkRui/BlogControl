@@ -5,25 +5,25 @@
         <ul>
           <li>
             <span>标语：</span>
-            <div>
+            <div @click="titleBooean = false">
               <transition  tag="div" name="slide-up" mode="out-in">
-                <span :key="1" @click="titleBooean = false" v-if="titleBooean">{{ Global.title }}</span>
+                <span :key="1" v-if="titleBooean">{{ Global.title }}</span>
                 <el-input :key="1" v-else v-focus @blur="titleBooean = true" v-model="Global.title"></el-input>
               </transition>
             </div>
           </li>
           <li>
             <span>合伙人：</span>
-            <div>
+            <div @click="partnerBoolean = false">
               <transition  tag="div" name="slide-up" mode="out-in">
-                <span :key="1" @click="partnerBoolean = false" v-if="partnerBoolean">{{ Global.cooperation }}</span>
+                <span :key="1"  v-if="partnerBoolean">{{ Global.cooperation }}</span>
                 <el-input :key="1" v-else v-focus @blur="partnerBoolean = true" v-model="Global.cooperation"></el-input>
               </transition>
             </div>
           </li>
           <li>
             <span>影视剧：</span>
-            <div>
+            <div @click="partnerBoolean = false">
               <transition  tag="div" name="slide-up" mode="out-in">
                 <span :key="1" @click="movieBoolean = false" v-if="movieBoolean">{{ Global.movie }}</span>
                 <el-input :key="1" v-else v-focus @blur="movieBoolean = true" v-model="Global.movie"></el-input>
