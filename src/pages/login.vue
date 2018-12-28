@@ -4,10 +4,10 @@
     <div class="form">
       <h2>登录</h2>
       <el-form :model='userInfo' ref="userInfoForm" :rules="userRules">
-        <el-form-item prop="account">
+        <el-form-item prop="nickName">
           <el-input v-model="userInfo.nickName" placeholder="请输入用户名"></el-input>
         </el-form-item>
-        <el-form-item prop="password">
+        <el-form-item prop="passWord">
           <el-input v-model="userInfo.passWord" type="password" placeholder="请输入密码"></el-input>
         </el-form-item>
       </el-form>
@@ -26,6 +26,10 @@ import CanvasLogin from '@/components/login/loginCanvas.vue'
   }
 })
 export default class Login extends Vue {
+  public $refs: {
+    userInfoForm: HTMLFormElement
+  }
+
   private userInfo = {
     nickName: '',
     passWord: ''
@@ -41,7 +45,20 @@ export default class Login extends Vue {
   }
 
   private login () {
-    this.$store.dispatch('login', this.userInfo)
+    this.$refs.userInfoForm.validate((valid: boolean) => {
+      if (valid) {
+        this.$store.dispatch('login', this.userInfo)
+      }
+    })
+  }
+
+  private mounted () {
+    const _this = this
+    document.addEventListener('keydown', (e) => {
+      if (e.keyCode === 13) {
+        _this.login()
+      }
+    })
   }
 }
 </script>

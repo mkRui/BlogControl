@@ -1,10 +1,10 @@
 <template>
   <div class="globalContainRight">
-    <div class="aboutTitle">
+    <div class="aboutTitle" @click="titleBooean = false">
       <span>作者标题：</span>
       <div>
         <transition  tag="div" name="slide-up" mode="out-in">
-          <span :key="1" @click="titleBooean = false" v-if="titleBooean">{{ aboutTitle }}</span>
+          <span :key="1" v-if="titleBooean">{{ aboutTitle }}</span>
           <el-input :key="1" v-else v-focus @blur="titleBooean = true" v-model="aboutTitle"></el-input>
         </transition>
       </div>
@@ -83,6 +83,7 @@ export default class rightGlobal extends Vue {
   private success (item: ajaxRes.reState) {
     if (item.code === 1) {
       this.timg = item.result.filePath
+      this.changeImg = false
     }
   }
 

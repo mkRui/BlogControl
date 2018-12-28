@@ -20,10 +20,16 @@
         <el-table-column
           prop="leaveTitle"
           label="留言标题">
+          <template slot-scope="scope">
+            {{ scope.row.leaveTitle ? scope.row.leaveTitle : '没有填写' }}
+          </template>
         </el-table-column>
         <el-table-column
           prop="leaveUser"
           label="留言人">
+          <template slot-scope="scope">
+            {{ scope.row.leaveUser ? scope.row.leaveUser : '没有填写' }}
+          </template>
         </el-table-column>
         <el-table-column
           prop="leaveTime"

@@ -37,9 +37,10 @@ const actions: ActionTree<State, any> = {
   },
   async login ({ commit, dispatch }, params) {
     const res = await user.login(params)
-    dispatch('tagControl/allClose')
-    if (res.code === 1) commit('LOGIN', res.result)
-    else res
+    if (res.code === 1) {
+      commit('LOGIN', res.result)
+      dispatch('tagControl/allClose')
+    } else res
   }
 }
 

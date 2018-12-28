@@ -3,56 +3,56 @@
     <div class="Introduction">
       <div class="userInfo">
         <ul>
-          <li>
+          <li @click="titleBooean = false">
             <span>标语：</span>
-            <div @click="titleBooean = false">
+            <div >
               <transition  tag="div" name="slide-up" mode="out-in">
                 <span :key="1" v-if="titleBooean">{{ Global.title }}</span>
                 <el-input :key="1" v-else v-focus @blur="titleBooean = true" v-model="Global.title"></el-input>
               </transition>
             </div>
           </li>
-          <li>
+          <li @click="partnerBoolean = false">
             <span>合伙人：</span>
-            <div @click="partnerBoolean = false">
+            <div>
               <transition  tag="div" name="slide-up" mode="out-in">
                 <span :key="1"  v-if="partnerBoolean">{{ Global.cooperation }}</span>
                 <el-input :key="1" v-else v-focus @blur="partnerBoolean = true" v-model="Global.cooperation"></el-input>
               </transition>
             </div>
           </li>
-          <li>
+          <li @click="movieBoolean = false">
             <span>影视剧：</span>
-            <div @click="partnerBoolean = false">
+            <div>
               <transition  tag="div" name="slide-up" mode="out-in">
                 <span :key="1" @click="movieBoolean = false" v-if="movieBoolean">{{ Global.movie }}</span>
                 <el-input :key="1" v-else v-focus @blur="movieBoolean = true" v-model="Global.movie"></el-input>
               </transition>
             </div>
           </li>
-          <li>
+          <li @click="musicBoolean = false">
             <span>音乐：</span>
             <div>
               <transition  tag="div" name="slide-up" mode="out-in">
-                <span :key="1" @click="musicBoolean = false" v-if="musicBoolean">{{ Global.music }}</span>
+                <span :key="1"  v-if="musicBoolean">{{ Global.music }}</span>
                 <el-input :key="1" v-else v-focus @blur="musicBoolean = true" v-model="Global.music"></el-input>
               </transition>
             </div>
           </li>
-          <li>
+          <li @click="hobbyBoolean = false">
             <span>爱好：</span>
             <div>
               <transition  tag="div" name="slide-up" mode="out-in">
-                <span :key="1" @click="hobbyBoolean = false" v-if="hobbyBoolean">{{ Global.hobby }}</span>
+                <span :key="1" v-if="hobbyBoolean">{{ Global.hobby }}</span>
                 <el-input :key="1" v-else v-focus @blur="hobbyBoolean = true" v-model="Global.hobby"></el-input>
               </transition>
             </div>
           </li>
-          <li>
+          <li @click="introduceBoolean = false">
             <span>介绍：</span>
             <div>
               <transition  tag="div" name="slide-up" mode="out-in">
-                <span :key="1" @click="introduceBoolean = false" v-if="introduceBoolean">{{ Global.introduce }}</span>
+                <span :key="1"  v-if="introduceBoolean">{{ Global.introduce }}</span>
                 <el-input :key="1" v-else v-focus @blur="introduceBoolean = true" v-model="Global.introduce"></el-input>
               </transition>
             </div>
@@ -73,29 +73,29 @@
     </div>
     <div class="feelings">
       <p>感情</p>
-      <div class="feelHead">
+      <div class="feelHead" @click="feelHeadBoolean = false">
         <span>标语标题：</span>
         <div>
           <transition  tag="div" name="slide-up" mode="out-in">
-            <span :key="1" @click="feelHeadBoolean = false" v-if="feelHeadBoolean">{{ Global.feelingsTitle }}</span>
+            <span :key="1" v-if="feelHeadBoolean">{{ Global.feelingsTitle }}</span>
             <el-input :key="1" v-else v-focus @blur="feelHeadBoolean = true" v-model="Global.feelingsTitle"></el-input>
           </transition>
         </div>
       </div>
-      <div class="feelHead">
+      <div class="feelHead" @click="feelMinHeadBoolean = false">
         <span>标语副标题：</span>
         <div>
           <transition  tag="div" name="slide-up" mode="out-in">
-            <span :key="1" @click="feelMinHeadBoolean = false" v-if="feelMinHeadBoolean">{{ Global.feelingsMinTitle }}</span>
+            <span :key="1"  v-if="feelMinHeadBoolean">{{ Global.feelingsMinTitle }}</span>
             <el-input :key="1" v-else v-focus @blur="feelMinHeadBoolean = true" v-model="Global.feelingsMinTitle"></el-input>
           </transition>
         </div>
       </div>
-      <div class="feelBody">
+      <div class="feelBody" @click="feelBodyBoolean = false">
         <span>标语内容：</span>
         <div>
           <transition  tag="div" name="slide-up" mode="out-in">
-            <span :key="1" @click="feelBodyBoolean = false" v-if="feelBodyBoolean">{{ Global.feelingsContent }}</span>
+            <span :key="1"  v-if="feelBodyBoolean">{{ Global.feelingsContent }}</span>
             <el-input :key="1" v-else v-focus @blur="feelBodyBoolean = true" type="textarea" v-model="Global.feelingsContent"></el-input>
           </transition>
         </div>
