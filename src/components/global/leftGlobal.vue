@@ -67,7 +67,7 @@
           name='fileName'
           :before-upload='before'
           :on-success="success">
-          <img :src="timg">
+          <img :src="timg ? timg : userFace">
         </el-upload>
       </div>
     </div>
@@ -160,7 +160,9 @@ export interface LeftGlobal {
 export default class leftGlobal extends Vue {
   public Global: LeftGlobal = JSON.parse('{}')
 
-  public userList: string[] = ['anRui']
+  public userList: string[] = []
+
+  private userFace = require('./../../assets/image/people.jpeg')
 
   public timg = ''
 

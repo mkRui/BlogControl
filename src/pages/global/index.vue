@@ -57,7 +57,7 @@ export default class GlobalControl extends Vue {
         arr.push(false)
       }
     }
-    if (arr.includes(false)) {
+    if (arr.includes(false) || !this.detail) {
       this.$store.dispatch('global/editGlobal', saveDetail)
     } else {
       error('请修改一些内容')
