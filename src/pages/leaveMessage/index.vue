@@ -129,7 +129,7 @@ export default class leaveMessage extends Vue {
       cancelButtonText: '取消',
       dangerouslyUseHTMLString: true
     }).then(async () => {
-      await this.$store.dispatch('leave/')
+      await this.$store.dispatch('leave/delLeaveMessage')
     })
   }
 

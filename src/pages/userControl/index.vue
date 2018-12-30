@@ -44,7 +44,7 @@
             <el-button size="small" type="primary" @click="edit(scope.row)">编辑</el-button>
             <el-button size="small" type="warning" v-if="scope.row.userState !== 1" @click="updateState(scope.row.id, 1)">启用</el-button>
             <el-button size="small" type="danger" v-else @click="updateState(scope.row.id, 0)">禁用</el-button>
-            <el-button size="small" >删除</el-button>
+            <el-button size="small" @click="del(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -138,6 +138,17 @@ export default class UserContent extends Vue {
       this.addUserView = false
       this.switchPage(this.pageNo)
     }
+  }
+
+  private del (item: number) {
+    this.$confirm(`<string style='color:red; font-size:16px;' >是否要删除该人员？ 有犯什么错吗？</string>`, '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      dangerouslyUseHTMLString: true
+    }).then(async () => {
+      await this.$store.dispatch('user/delUser')
+      this.switchPage(this.pageNo)
+    })
   }
 
   // 页面初始化

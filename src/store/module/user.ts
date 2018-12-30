@@ -64,6 +64,15 @@ const actions: ActionTree<State, any> = {
     } else {
       return res
     }
+  },
+  // 删除人员
+  async delUser ({commit}, param) {
+    const res = await user.delUser(param)
+    if (res.code === 1) {
+      commit('DEL_USER')
+    } else {
+      return res
+    }
   }
 }
 
@@ -81,6 +90,9 @@ const mutations: MutationTree<State> = {
   },
   EDIT_USER () {
     message('编辑成功')
+  },
+  DEL_USER () {
+    message('删除成功')
   }
 }
 

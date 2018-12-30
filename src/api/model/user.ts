@@ -41,3 +41,10 @@ export function exitUserInfo (params: any): Promise<ajaxRes.reState> {
   .then((res: any) => res.data)
   .catch((e: any) => console.error(e))
 }
+
+// 删除人员
+export function delUser (params: any): Promise<ajaxRes.reState> {
+  return axios.post('/user/delUser', params)
+  .then((res: any) => res.data)
+  .catch((e: any) => console.error(e))
+}
