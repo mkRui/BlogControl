@@ -8,7 +8,7 @@
 ![](https://github.com/qzuser/BlogControl/blob/master/MdImg/index.png)
 
 # 文章编辑
-![](hhttps://github.com/qzuser/BlogControl/blob/master/MdImg/article.png)
+![](https://github.com/qzuser/BlogControl/blob/master/MdImg/article.png)
 
 # 技术栈
 > vue + axios + element + typescript
