@@ -14,6 +14,13 @@ export function login (params: any): Promise<ajaxRes.reState> {
   .catch((e: any) => console.error(e))
 }
 
+// 退出登录
+export function logOut (params: any): Promise<ajaxRes.reState> {
+  return axios.get('/user/logOut', params)
+  .then((res: any) => res.data)
+  .catch((e: any) => console.error(e))
+}
+
 // 注册/添加人员
 export function addUser (params: any): Promise<ajaxRes.reState> {
   return axios.post('/addUser', params)
@@ -45,6 +52,13 @@ export function exitUserInfo (params: any): Promise<ajaxRes.reState> {
 // 删除人员
 export function delUser (params: any): Promise<ajaxRes.reState> {
   return axios.post('/user/delUser', params)
+  .then((res: any) => res.data)
+  .catch((e: any) => console.error(e))
+}
+
+// 修改头像
+export function editUserFace (params: any): Promise<ajaxRes.reState> {
+  return axios.post('/user/updateUserface', params)
   .then((res: any) => res.data)
   .catch((e: any) => console.error(e))
 }

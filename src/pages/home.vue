@@ -2,12 +2,19 @@
   <div class="home">
     <header class="header">
       <div class="logo">
-        <img src="./../assets/image/control.png">
+        <img src="./../assets/image/rui.png">
         <span>{{ homeTitle }}</span>
       </div>
       <div class="user">
-        <img :src="userFace">
-        <span>anRui</span>
+        <el-dropdown @command="handleClick">
+          <div>
+            <img :src="User.userFace ? User.userFace : userFace">
+            <span>{{ User.nickName }}</span>
+          </div>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item v-for="(item, index) in dropList" :command='item' :key="index">{{ item }}</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
       </div>
     </header>
     <main>
@@ -48,25 +55,63 @@
         </div>
       </div>
     </main>
+
+    <!--修改头像 -->
+    <el-dialog
+      title="修改头像"
+      :visible.sync="updateFace"
+      width="400px">
+      <user-face-form @save='save' ref="userFace"></user-face-form>
+    </el-dialog>
   </div>
 </template>
 <script lang='ts'>
 import { Component, Vue } from 'vue-property-decorator'
 import tag from '@/components/common/tagControl.vue'
+import userFaceForm from '@/components/common/updateUserFace.vue'
 
 @Component({
   name: 'home',
   components: {
-    tag
+    tag,
+    userFaceForm
   }
 })
 export default class Home extends Vue {
-  private user: object = {}
-  private homeTitle: string = 'anRui'
+  public $refs: {
+    userFace: userFaceForm
+  }
+
+  private homeTitle: string = 'Blog Control'
+
   private userFace = require('./../assets/image/people.jpeg')
+
+  private dropList = [' 更换头像', '退出登录']
+
+  private updateFace = false
+
+  private get User () {
+    return this.$store.state.user
+  }
+
+  private async save (item: { filePath: string }) {
+    const res =  await this.$store.dispatch('editUserFace', item)
+    if (!res) {
+      this.$refs.userFace.cancel()
+      this.updateFace = false
+    }
+  }
 
   private selectChange (key:string, keyPath:string):void {
     this.$router.push(key)
+  }
+
+  private handleClick (item: string) {
+    if (item === '退出登录') {
+      this.$store.dispatch('logOut')
+    } else {
+      this.updateFace = true
+    }
   }
 }
 </script>
@@ -88,12 +133,12 @@ export default class Home extends Vue {
       align-items: center;
       span {
         color: #fff;
-        font-size: 27px;
+        font-size: 24px;
       }
       img {
-        width: 50px;
-        height: 50px;
-        margin-right: 20px;
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
       }
     }
     .user {

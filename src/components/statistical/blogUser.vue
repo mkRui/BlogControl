@@ -2,7 +2,7 @@
   <div class="blogAdmin">
     <p><img src="@/assets/image/admin.png">管理员</p>
     <div class="user" v-for="(item, index) in userList" :key="index">
-      <img v-if="item.urlFace" :src="item.urlFace">
+      <img v-if="item.userFace" :src="item.userFace">
       <img v-else src="@/assets/image/people.jpeg">
       <span> {{ item.nickName }} </span>
     </div>
