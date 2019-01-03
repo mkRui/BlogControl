@@ -1,3 +1,9 @@
+# anRui https://admin.scrscript.com
+
+# 链接
+[blogControl](https://admin.scrscript.com)
+[blogNuxt](https://scrscript.com)
+
 # v1.0.0.0
 这是博客管理平台的第一个版本
 
