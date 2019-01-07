@@ -146,7 +146,7 @@ export default class UserContent extends Vue {
       cancelButtonText: '取消',
       dangerouslyUseHTMLString: true
     }).then(async () => {
-      await this.$store.dispatch('user/delUser')
+      await this.$store.dispatch('user/delUser', {id: item})
       this.switchPage(this.pageNo)
     })
   }
