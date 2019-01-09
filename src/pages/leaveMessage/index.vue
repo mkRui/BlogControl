@@ -121,6 +121,7 @@ export default class leaveMessage extends Vue {
   }
 
   private handleCurrentChange (val: number): void {
+    this.switchPage(val)
   }
 
   private deleteTable (data: LeaveMsg):void {

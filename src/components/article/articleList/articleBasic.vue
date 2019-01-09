@@ -19,7 +19,7 @@
         <el-select v-model="basic.tag" filterable placeholder="请选择标签">
           <el-option v-for="(item, index) in tagList" :key="index" :label="item.tagTitle" :value="item.tagTitle">{{ item.tagTitle }}</el-option>
         </el-select>
-        <el-select v-model="basic.tag" filterable placeholder="请选择分类">
+        <el-select v-model="basic.classify" filterable placeholder="请选择分类">
           <el-option v-for="(item, index) in classifyList" :key="index" :label="item.tagTitle" :value="item.tagTitle">{{ item.tagTitle }}</el-option>
         </el-select>
       </el-form-item>
