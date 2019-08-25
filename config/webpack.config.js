@@ -100,7 +100,7 @@ module.exports = function(webpackEnv) {
           ],
           sourceMap: isEnvProduction && shouldUseSourceMap,
         },
-      },
+      }
     ].filter(Boolean);
     if (preProcessor) {
       loaders.push({
@@ -110,6 +110,16 @@ module.exports = function(webpackEnv) {
         },
       });
     }
+    loaders.push(
+      {
+        loader: require.resolve('sass-resources-loader'),
+        options: {
+          resources: [
+            './src/styles/scss/global.scss'
+          ]
+        }
+      }
+    )
     return loaders;
   };
 
