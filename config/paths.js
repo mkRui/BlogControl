@@ -50,7 +50,6 @@ const moduleFileExtensions = [
   'json',
   'web.jsx',
   'jsx',
-  'scss'
 ];
 
 // Resolve file paths in the same order as webpack
@@ -77,6 +76,7 @@ module.exports = {
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
   appTsConfig: resolveApp('tsconfig.json'),
+  appJsConfig: resolveApp('jsconfig.json'),
   yarnLockFile: resolveApp('yarn.lock'),
   testsSetup: resolveModule(resolveApp, 'src/setupTests'),
   proxySetup: resolveApp('src/setupProxy.js'),
