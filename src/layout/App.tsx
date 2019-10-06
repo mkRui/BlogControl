@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 // import logo from './logo.svg';
 // import './../styles/scss/global';
-import styles from './App.module';
+import styles from './App.module.scss';
 
 class App extends Component {
   render() {
     return (
-      <div className={styles['app']}>
+      <div >
         <header className="App-header">
           {/* <img src={logo} className="App-logo" alt="logo" /> */}
           <p>
