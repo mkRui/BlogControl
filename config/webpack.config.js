@@ -27,6 +27,16 @@ const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpack
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const eslint = require('eslint');
 
+const HappyPack = require('happypack')
+const os = require('os');
+
+const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
+const createHappyPlugin = (id, loaders) => new HappyPack({
+  id: id,
+  loaders: loaders,
+  threadPool: happyThreadPool
+});
+
 const postcssNormalize = require('postcss-normalize');
 
 const appPackageJson = require(paths.appPackageJson);
@@ -81,7 +91,7 @@ module.exports = function(webpackEnv) {
   const env = getClientEnvironment(publicUrl);
 
   // common function to get style loaders
-  const getStyleLoaders = (cssOptions, preProcessor) => {
+  const getStyleLoaders = (cssOptions, preProcessor, stylesLoader) => {
     const loaders = [
       isEnvDevelopment && require.resolve('style-loader'),
       isEnvProduction && {
@@ -119,28 +129,23 @@ module.exports = function(webpackEnv) {
       },
     ].filter(Boolean);
     if (preProcessor) {
-      loaders.push(
-        {
-          loader: require.resolve('resolve-url-loader'),
-          options: {
-            sourceMap: isEnvProduction && shouldUseSourceMap,
-          },
+      loaders.push({
+        loader: require.resolve(preProcessor),
+        options: {
+          sourceMap: isEnvProduction && shouldUseSourceMap,
+          javascriptEnabled: true
         },
-        {
-          loader: require.resolve(preProcessor),
-          options: {
-            sourceMap: true,
-          },
+      });
+    }
+    if (stylesLoader) {
+      loaders.push({
+        loader: require.resolve('style-resources-loader'),
+        options: {
+          patterns: [
+            path.resolve(__dirname, './../src/style/Common.scss')
+          ]
         },
-        {
-          loader: require.resolve('sass-resources-loader'),
-          options: {
-            resources: [
-              './src/styles/scss/global.scss'
-            ]
-          }
-        }
-      );
+      });
     }
     return loaders;
   };
@@ -306,9 +311,9 @@ module.exports = function(webpackEnv) {
       // `web` extension prefixes have been added for better support
       // for React Native Web.
       extensions: paths.moduleFileExtensions
-        .map(ext => `.${ext}`)
-        .filter(ext => useTypeScript || !ext.includes('ts')),
+        .map(ext => `.${ext}`),
       alias: {
+        '@': paths.appSrc,
         // Support React Native Web
         // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
         'react-native': 'react-native-web',
@@ -384,33 +389,7 @@ module.exports = function(webpackEnv) {
             {
               test: /\.(js|mjs|jsx|ts|tsx)$/,
               include: paths.appSrc,
-              loader: require.resolve('babel-loader'),
-              options: {
-                customize: require.resolve(
-                  'babel-preset-react-app/webpack-overrides'
-                ),
-                
-                plugins: [
-                  [
-                    require.resolve('babel-plugin-named-asset-import'),
-                    {
-                      loaderMap: {
-                        svg: {
-                          ReactComponent:
-                            '@svgr/webpack?-svgo,+titleProp,+ref![path]',
-                        },
-                      },
-                    },
-                  ],
-                ],
-                // This is a feature of `babel-loader` for webpack (not Babel itself).
-                // It enables caching results in ./node_modules/.cache/babel-loader/
-                // directory for faster rebuilds.
-                cacheDirectory: true,
-                // See #6846 for context on why cacheCompression is disabled
-                cacheCompression: false,
-                compact: isEnvProduction,
-              },
+              loader: 'happypack/loader?id=happybabel'
             },
             // Process any JS outside of the app with Babel.
             // Unlike the application JS, we only compile the standard ES features.
@@ -481,7 +460,7 @@ module.exports = function(webpackEnv) {
                   importLoaders: 2,
                   sourceMap: isEnvProduction && shouldUseSourceMap,
                 },
-                'sass-loader'
+                'sass-loader', true
               ),
               // Don't consider CSS imports dead code even if the
               // containing package claims to have no side effects.
@@ -500,7 +479,7 @@ module.exports = function(webpackEnv) {
                   modules: true,
                   getLocalIdent: getCSSModuleLocalIdent,
                 },
-                'sass-loader'
+                'sass-loader', true
               ),
             },
             // "file" loader makes sure those assets get served by WebpackDevServer.
@@ -530,6 +509,38 @@ module.exports = function(webpackEnv) {
       ],
     },
     plugins: [
+      createHappyPlugin('happybabel', [
+        {
+          loader: 'babel-loader',
+          cache: true,
+          options: {
+            customize: require.resolve(
+              'babel-preset-react-app/webpack-overrides'
+            ),
+            
+            plugins: [
+              [
+                require.resolve('babel-plugin-named-asset-import'),
+                {
+                  loaderMap: {
+                    svg: {
+                      ReactComponent:
+                        '@svgr/webpack?-svgo,+titleProp,+ref![path]',
+                    },
+                  },
+                },
+              ],
+            ],
+            // This is a feature of `babel-loader` for webpack (not Babel itself).
+            // It enables caching results in ./node_modules/.cache/babel-loader/
+            // directory for faster rebuilds.
+            cacheDirectory: true,
+            // See #6846 for context on why cacheCompression is disabled
+            cacheCompression: false,
+            compact: isEnvProduction,
+          },
+        }
+      ]),
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(
         Object.assign(
