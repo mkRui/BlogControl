@@ -1,0 +1,23 @@
+body {
+    background: #000;
+}
+
+$p: #000;
+
+
+@mixin flex ($justify:center,$align:center,$direction:row,$flex-wrap: null) {
+    display: -webkit-flex;
+    display: flex;
+    @if ($direction!=null) {
+      flex-direction: $direction;
+    }
+    @if ($justify!=null) {
+      justify-content: $justify;
+    }
+    @if ($align!=null) {
+      align-items: $align;
+    }
+    @if ($flex-wrap != null) {
+      flex-wrap: $flex-wrap;
+    }
+}
