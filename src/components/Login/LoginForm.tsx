@@ -1,8 +1,58 @@
-import React from 'react'
+/** 登录 form */
+
+import React, { } from 'react';
+
+import { Tabs } from 'antd';
+
+// 两种登录方式
+import EmailForm from './LoginForm/EmailLogin';
+
+import UserLogin from './LoginForm/UserLogin';
+
+import styles from '@/styles/scss/components/Login/LoginForm.module.scss'
+
+const TabPane = Tabs.TabPane;
+
 
 const LoginForm = () => {
+
+    // 跳转到 注册
+    const Jump = () => {
+
+    }
+
     return (
-        <div></div> 
+        <div className={styles['LoginForm']}>
+            <div className={styles['slider']}>
+                <img src={require('@/styles/img/logo.png')} className={styles['logo']} alt=""/>
+                <h1>Bolg Management</h1>
+                <p>welcome to the blog Management Platform of CoderRui</p>
+                <span onClick={Jump}>先行注册吧～ ></span>
+            </div>
+            <div className={styles['content']}>
+                <Tabs
+                    tabBarStyle={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}
+                    defaultActiveKey="1"
+                    >
+                    <TabPane
+                        tab={'用户登录'}
+                        key="1"
+                    >
+                        <UserLogin/>
+                    </TabPane>
+                    <TabPane
+                        tab={'邮箱登录'}
+                        key="2"
+                    >
+                        <EmailForm/>
+                    </TabPane>
+                </Tabs>
+            </div>
+        </div> 
     )
 }
 

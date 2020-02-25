@@ -1,0 +1,30 @@
+// 进入
+.forward-enter {
+    transform: translate(100%);
+}
+.forward-enter.forward-enter-active {
+    transform: translate(0px);
+    transition: .6s;
+}
+.forward-exit{
+    transform: translate(0px);
+}
+.forward-exit.forward-exit-active{
+    transform: translate(-100%);
+    transition: .6s;
+}
+
+.back-enter {
+    transform: translate(-100%);
+}
+.back-enter.back-enter-active {
+    transform: translate(0px);
+    transition: .6s;
+}
+.back-exit{
+    transform: translate(0px);
+}
+.back-exit.back-exit-active{
+    transform: translate(100%);
+    transition: .6s;
+}
