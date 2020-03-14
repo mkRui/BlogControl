@@ -9,6 +9,8 @@ import Store from './store'
 
 import 'antd/dist/antd.css';
 
+import './styles/scss/common'
+
 ReactDOM.render(
     <Provider store={Store}>
         <App />

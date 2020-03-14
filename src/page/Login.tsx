@@ -9,10 +9,10 @@ import styles from '@/styles/scss/Login.module.scss'
 
 // 引入路由
 import LoginForm from '@/components/Login/LoginForm'
+import RegisterForm from '@/components/Login/RegisterForm'
 
 const Login = (props: any) => {
     console.log(styles)
-
 
     const ANIMATION_MAP ={
         '/Login/LoginForm': 'forward',
@@ -42,11 +42,11 @@ const Login = (props: any) => {
                             render={() => <Redirect to="/Login/LoginForm" />}
                         />
                         <Route exact path="/Login/LoginForm" component={LoginForm}></Route>
-                        {/* <Route
+                        <Route
                             exact
                             path="/Login/Registered/:step"
-                            component={Registered}
-                        ></Route> */}
+                            component={RegisterForm}
+                        ></Route>
                         {/* <Route exact path="/Login/Forget" component={Forget}></Route> */}
                     </Switch>
                 </CSSTransition>

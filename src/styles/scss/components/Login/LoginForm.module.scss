@@ -7,7 +7,7 @@ $widthSlider: 360px;
     border-radius: 8px;
     background: #fff;
     box-shadow: 2px 3px 15px 0 rgba(32,32,32,.1);
-    position: relative;
+    position: absolute;
     overflow: hidden;
     @include flex(center, center);
     > .slider {

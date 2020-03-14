@@ -14,11 +14,11 @@ import styles from '@/styles/scss/components/Login/LoginForm.module.scss'
 const TabPane = Tabs.TabPane;
 
 
-const LoginForm = () => {
-
+const LoginForm = (props: any) => {
+    let { history } = props
     // 跳转到 注册
     const Jump = () => {
-
+        history.push('/Login/Registered/0')
     }
 
     return (
