@@ -12,7 +12,19 @@ $height: 508px;
         background: #fff;
         > header {
             box-sizing: border-box;
-            padding: 20px;
+            padding: 50px 0px 30px;
+        }
+        > .Form {
+            width: 400px;
+            height: 330px;
+            margin: 0 auto;
+        }
+        > .footer {
+            border-top: 1px solid #eee;
+            box-sizing: border-box;
+            padding: 13px 55px 0px;
+            display: flex;
+            justify-content: flex-end;
         }
     }
     > .side-bar {
