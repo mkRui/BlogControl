@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 
 import { Icon, Steps, Button } from 'antd'
 
-import styles from '@/styles/scss/components/Login/RegisterForm.module.scss'
+import styles from '@/styles/components/Login/RegisterForm.module.scss'
 
 import Email from './RegisterForm/EmailRegister'
 

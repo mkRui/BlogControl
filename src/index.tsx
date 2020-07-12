@@ -9,7 +9,7 @@ import Store from './store'
 
 import 'antd/dist/antd.css';
 
-import './styles/scss/common'
+import './styles/tools'
 
 ReactDOM.render(
     <Provider store={Store}>

@@ -9,7 +9,7 @@ import EmailForm from './LoginForm/EmailLogin';
 
 import UserLogin from './LoginForm/UserLogin';
 
-import styles from '@/styles/scss/components/Login/LoginForm.module.scss'
+import styles from '@/styles/components/Login/LoginForm.module.scss'
 
 const TabPane = Tabs.TabPane;
 
@@ -24,10 +24,10 @@ const LoginForm = (props: any) => {
     return (
         <div className={styles['LoginForm']}>
             <div className={styles['slider']}>
-                <img src={require('@/styles/img/logo.png')} className={styles['logo']} alt=""/>
+                <img src={require('@/img/logo.png')} className={styles['logo']} alt=""/>
                 <h1>Bolg Management</h1>
                 <p>welcome to the blog Management Platform of CoderRui</p>
-                <span onClick={Jump}>先行注册吧～ ></span>
+                <span onClick={Jump}>{'先行注册吧～ >'}</span>
             </div>
             <div className={styles['content']}>
                 <Tabs

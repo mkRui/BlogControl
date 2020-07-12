@@ -3,7 +3,7 @@ import React, {  } from 'react'
 
 import { Form, Input, Button } from 'antd'
 
-import style from '@/styles/scss/components/Login/LoginForm/Form.module.scss'
+import style from '@/styles/components/Login/LoginForm/Form.module.scss'
 
 const Item = Form.Item;
 

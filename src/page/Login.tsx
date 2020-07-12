@@ -5,7 +5,7 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 // 引入路由
 import { Switch, Redirect, Route } from 'react-router-dom';
 
-import styles from '@/styles/scss/Login.module.scss'
+import styles from '@/styles/page/Login.module.scss'
 
 // 引入路由
 import LoginForm from '@/components/Login/LoginForm'

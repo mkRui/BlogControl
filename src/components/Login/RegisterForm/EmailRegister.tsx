@@ -11,8 +11,6 @@ const RegisterForm = (props: any) => {
 
     const [second, setSecond] = useState(60)
 
-    let sec = 60;
-
     const s = useRef()
 
     const subVerify = () => {
@@ -21,6 +19,7 @@ const RegisterForm = (props: any) => {
     }
 
     useEffect(() => {
+        let sec = 60;
         if (checkSubmit) {
             (s.current as any) = setInterval(() => {
                 setSecond(--sec)
@@ -35,9 +34,6 @@ const RegisterForm = (props: any) => {
             clearInterval(s.current)
         }
     }, [second])
-
-
-    
 
     return (
         <Form>
@@ -56,7 +52,7 @@ const RegisterForm = (props: any) => {
                         }
                     >
                         <Input placeholder={'老铁请输入邮箱'} />
-                    </Item>      
+                    </Item>
                 </Col>
                 <Col span={3} offset={1}>
                     <Button
