@@ -2,11 +2,18 @@ import { combineReducers } from 'redux';
 
 import { connectRouter } from 'connected-react-router';
 
-const Common = () => {
-    return 1
+const Initstate = {
+    
+};
+
+const Common = (state: any = Initstate, action: any) => {
+    switch (action.type) {
+        default:
+            return state
+    }
 }
 
-let Reducer = (history: any): any => combineReducers({
+let Reducer = (history: any) => combineReducers({
     router: connectRouter(history),
     Common
 })

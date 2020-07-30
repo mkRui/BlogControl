@@ -2,20 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './layout/App';
 import * as serviceWorker from './serviceWorker';
+import '@/styles/common.less'
 
-import { Provider } from 'react-redux';
-
-import Store from './store'
-
-import 'antd/dist/antd.css';
-
-import './styles/tools'
+// store
+import { ReduxStore, StoreContext } from './store'
 
 ReactDOM.render(
-    <Provider store={Store}>
+  <React.StrictMode>
+    <StoreContext.Provider value={ReduxStore()}>
         <App />
-    </Provider>
-, document.getElementById('root'));
+    </StoreContext.Provider>
+  </React.StrictMode>,
+  document.getElementById('root')
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

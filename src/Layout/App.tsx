@@ -4,17 +4,28 @@ import { Switch, Redirect, Route, HashRouter } from 'react-router-dom'
 
 import * as components from '@/router/page-all'
 
-const App: React.FC = () => {
+import zhCN from 'antd/es/locale/zh_CN';
+
+// 多语言国际化
+// import {  RawIntlProvider } from 'react-intl';
+
+// 全局配置
+import { ConfigProvider } from 'antd';
+
+function App() {
   return (
-    <div className="App">
-      <HashRouter>
-        <Switch>
-          <Route exact path="/" render={() => <Redirect to="/Login" />} />
-          <Route path='/Home' component={components.Home} />          
-          <Route path='/Login' component={components.Login} />          
-        </Switch>
-      </HashRouter>
-    </div>
+    // <RawIntlProvider value={''}>
+    <ConfigProvider locale={zhCN} componentSize={'small'} >
+      <div className="App">
+        <HashRouter>
+          <Switch>
+            <Route exact path="/" render={() => <Redirect to="/Login" />} />
+            <Route path='/Home' component={components.Home} />          
+          </Switch>
+        </HashRouter>
+      </div>
+    </ConfigProvider>
+  // </RawIntlProvider>
   );
 }
 

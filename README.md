@@ -9,9 +9,6 @@ React Redux
 ```
 React-router
 ```
-> 文件划分
-- react-loadable 代码体量分割  ✅
-
 ## Style
 ```
 sass
